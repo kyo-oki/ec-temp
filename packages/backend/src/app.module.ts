@@ -1,10 +1,44 @@
 import { Module } from '@nestjs/common';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { APP_FILTER } from '@nestjs/core';
+import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AppResolver } from './app.resolver';
+import { PrismaModule } from './prisma/prisma.module';
+import { AuthModule } from './auth/auth.module';
+import { GraphQLExceptionFilter } from './common/filters/graphql-exception.filter';
 
 @Module({
-  imports: [],
+  imports: [
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      sortSchema: true,
+      playground: process.env.GRAPHQL_PLAYGROUND !== 'false',
+      introspection: process.env.GRAPHQL_INTROSPECTION !== 'false',
+      context: ({ req }: { req: Request }) => ({ req }),
+      formatError: (error) => {
+        return {
+          message: error.message,
+          code: error.extensions?.code || 'INTERNAL_SERVER_ERROR',
+          statusCode: error.extensions?.statusCode || 500,
+          path: error.path,
+        };
+      },
+    }),
+    PrismaModule,
+    AuthModule,
+  ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    AppResolver,
+    {
+      provide: APP_FILTER,
+      useClass: GraphQLExceptionFilter,
+    },
+  ],
 })
 export class AppModule {}

@@ -1,0 +1,235 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model for store owners
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  stores Store[]
+
+  @@map("users")
+}
+
+// Store model for multi-tenant e-commerce stores
+model Store {
+  id                   String   @id @default(uuid())
+  name                 String
+  slug                 String   @unique
+  subdomain            String   @unique
+  customDomain         String?  @unique
+  customDomainVerified Boolean  @default(false)
+  ownerId              String
+  owner                User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  settings             Json     @default("{}")
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  products   Product[]
+  orders     Order[]
+  blogPosts  BlogPost[]
+  faqs       FAQ[]
+  about      About?
+  contacts   Contact[]
+  promotions Promotion[]
+
+  @@index([ownerId])
+  @@index([slug])
+  @@index([subdomain])
+  @@index([customDomain])
+  @@map("stores")
+}
+
+// Product model with all product information
+model Product {
+  id              String   @id @default(uuid())
+  storeId         String
+  store           Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  name            String
+  description     String   @db.Text
+  price           Decimal  @db.Decimal(10, 2)
+  category        String
+  images          String[]
+  specifications  Json?
+  availableSizes  String[]
+  availableColors String[]
+  stockQuantity   Int      @default(0)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  reviews    Review[]
+  orderItems OrderItem[]
+
+  @@index([storeId])
+  @@index([category])
+  @@index([isActive])
+  @@map("products")
+}
+
+// Review model for product reviews
+model Review {
+  id           String   @id @default(uuid())
+  productId    String
+  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  customerName String
+  rating       Int
+  comment      String   @db.Text
+  isApproved   Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  @@index([productId])
+  @@index([isApproved])
+  @@map("reviews")
+}
+
+// Order model with customer information
+model Order {
+  id              String      @id @default(uuid())
+  storeId         String
+  store           Store       @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  orderNumber     String      @unique
+  customerName    String
+  customerEmail   String
+  customerPhone   String
+  deliveryAddress String      @db.Text
+  city            String
+  stateRegion     String
+  postcode        String
+  totalAmount     Decimal     @db.Decimal(10, 2)
+  status          OrderStatus @default(PENDING)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  items OrderItem[]
+
+  @@index([storeId])
+  @@index([orderNumber])
+  @@index([status])
+  @@index([createdAt])
+  @@map("orders")
+}
+
+// Order status enum
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+// OrderItem model for products in an order
+model OrderItem {
+  id          String  @id @default(uuid())
+  orderId     String
+  order       Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId   String
+  product     Product @relation(fields: [productId], references: [id])
+  productName String
+  quantity    Int
+  price       Decimal @db.Decimal(10, 2)
+  size        String?
+  color       String?
+
+  @@index([orderId])
+  @@index([productId])
+  @@map("order_items")
+}
+
+// BlogPost model for blog content
+model BlogPost {
+  id           String   @id @default(uuid())
+  storeId      String
+  store        Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  title        String
+  description  String   @db.Text
+  content      String   @db.Text
+  category     String
+  thumbnailUrl String?
+  isPublished  Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([storeId])
+  @@index([isPublished])
+  @@index([createdAt])
+  @@map("blog_posts")
+}
+
+// FAQ model for frequently asked questions
+model FAQ {
+  id           String   @id @default(uuid())
+  storeId      String
+  store        Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  question     String
+  answer       String   @db.Text
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([storeId])
+  @@index([displayOrder])
+  @@map("faqs")
+}
+
+// About model for about page content
+model About {
+  id         String   @id @default(uuid())
+  storeId    String   @unique
+  store      Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  philosophy String   @db.Text
+  vision     String   @db.Text
+  offerings  Json
+  updatedAt  DateTime @updatedAt
+
+  @@map("about")
+}
+
+// Contact model for contact form submissions
+model Contact {
+  id        String   @id @default(uuid())
+  storeId   String
+  store     Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  name      String
+  email     String
+  subject   String
+  message   String   @db.Text
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([storeId])
+  @@index([isRead])
+  @@index([createdAt])
+  @@map("contacts")
+}
+
+// Promotion model for seasonal sales and promotions
+model Promotion {
+  id                 String   @id @default(uuid())
+  storeId            String
+  store              Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  title              String
+  description        String   @db.Text
+  discountPercentage Decimal  @db.Decimal(5, 2)
+  startDate          DateTime
+  endDate            DateTime
+  isActive           Boolean  @default(true)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@index([storeId])
+  @@index([isActive])
+  @@index([startDate, endDate])
+  @@map("promotions")
+}
