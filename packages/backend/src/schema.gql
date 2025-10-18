@@ -7,6 +7,17 @@ type AuthPayload {
   user: User!
 }
 
+input CreateOrderInput {
+  city: String!
+  customerEmail: String!
+  customerName: String!
+  customerPhone: String!
+  deliveryAddress: String!
+  items: [OrderItemInput!]!
+  postcode: String!
+  stateRegion: String!
+}
+
 input CreateProductInput {
   availableColors: [String!]!
   availableSizes: [String!]!
@@ -47,18 +58,60 @@ type DomainVerification {
 type Mutation {
   addCustomDomain(customDomain: String!, storeId: String!): Store!
   approveReview(id: String!): Review!
+  createOrder(input: CreateOrderInput!): Order!
   createProduct(input: CreateProductInput!): Product!
   createReview(input: CreateReviewInput!): Review!
   createStore(input: CreateStoreInput!): Store!
+  deleteOrder(id: String!): Order!
+  deleteOrderItem(id: String!): OrderItem!
   deleteProduct(id: String!): Product!
   deleteReview(id: String!): Review!
   deleteStore(storeId: String!): String!
   removeCustomDomain(storeId: String!): Store!
   signIn(input: SignInInput!): AuthPayload!
   signUp(input: SignUpInput!): AuthPayload!
+  updateOrder(id: String!, input: UpdateOrderInput!): Order!
   updateProduct(id: String!, input: UpdateProductInput!): Product!
   updateStore(input: UpdateStoreInput!): Store!
   verifyCustomDomain(storeId: String!): DomainVerification!
+}
+
+type Order {
+  city: String!
+  createdAt: DateTime!
+  customerEmail: String!
+  customerName: String!
+  customerPhone: String!
+  deliveryAddress: String!
+  id: ID!
+  items: [OrderItem!]
+  orderNumber: String!
+  postcode: String!
+  stateRegion: String!
+  status: String!
+  storeId: String!
+  totalAmount: Float!
+  updatedAt: DateTime!
+}
+
+type OrderItem {
+  color: String
+  id: ID!
+  orderId: String!
+  price: Float!
+  productId: String!
+  productName: String!
+  quantity: Int!
+  size: String
+}
+
+input OrderItemInput {
+  color: String
+  price: Float!
+  productId: String!
+  productName: String!
+  quantity: Int!
+  size: String
 }
 
 type Product {
@@ -99,6 +152,9 @@ type Query {
   hello: String!
   me: User!
   myStores: [Store!]!
+  order(id: String!): Order!
+  orderByNumber(orderNumber: String!): Order!
+  orders(limit: Float, offset: Float, status: String): [Order!]!
   product(id: String!): Product!
   productReviews(productId: String!): [Review!]!
   products(filter: ProductFilterInput): [Product!]!
@@ -150,6 +206,17 @@ type Store {
 type SubdomainAvailability {
   available: Boolean!
   subdomain: String!
+}
+
+input UpdateOrderInput {
+  city: String
+  customerEmail: String
+  customerName: String
+  customerPhone: String
+  deliveryAddress: String
+  postcode: String
+  stateRegion: String
+  status: String
 }
 
 input UpdateProductInput {

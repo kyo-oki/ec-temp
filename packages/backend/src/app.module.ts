@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { StoreModule } from './store/store.module';
 import { TenantModule } from './tenant/tenant.module';
 import { ProductsModule } from './products/products.module';
+import { OrdersModule } from './orders/orders.module';
 import { GraphQLExceptionFilter } from './common/filters/graphql-exception.filter';
 
 @Module({
@@ -36,6 +37,7 @@ import { GraphQLExceptionFilter } from './common/filters/graphql-exception.filte
     StoreModule,
     TenantModule,
     ProductsModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [
