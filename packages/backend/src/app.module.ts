@@ -10,6 +10,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { StoreModule } from './store/store.module';
 import { TenantModule } from './tenant/tenant.module';
+import { ProductsModule } from './products/products.module';
 import { GraphQLExceptionFilter } from './common/filters/graphql-exception.filter';
 
 @Module({
@@ -34,6 +35,7 @@ import { GraphQLExceptionFilter } from './common/filters/graphql-exception.filte
     AuthModule,
     StoreModule,
     TenantModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [

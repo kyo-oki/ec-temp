@@ -7,6 +7,25 @@ type AuthPayload {
   user: User!
 }
 
+input CreateProductInput {
+  availableColors: [String!]!
+  availableSizes: [String!]!
+  category: String!
+  description: String!
+  images: [String!]!
+  isActive: Boolean! = true
+  name: String!
+  price: Float!
+  stockQuantity: Int!
+}
+
+input CreateReviewInput {
+  comment: String!
+  customerName: String!
+  productId: String!
+  rating: Int!
+}
+
 input CreateStoreInput {
   name: String!
   settings: String
@@ -27,13 +46,51 @@ type DomainVerification {
 
 type Mutation {
   addCustomDomain(customDomain: String!, storeId: String!): Store!
+  approveReview(id: String!): Review!
+  createProduct(input: CreateProductInput!): Product!
+  createReview(input: CreateReviewInput!): Review!
   createStore(input: CreateStoreInput!): Store!
+  deleteProduct(id: String!): Product!
+  deleteReview(id: String!): Review!
   deleteStore(storeId: String!): String!
   removeCustomDomain(storeId: String!): Store!
   signIn(input: SignInInput!): AuthPayload!
   signUp(input: SignUpInput!): AuthPayload!
+  updateProduct(id: String!, input: UpdateProductInput!): Product!
   updateStore(input: UpdateStoreInput!): Store!
   verifyCustomDomain(storeId: String!): DomainVerification!
+}
+
+type Product {
+  availableColors: [String!]!
+  availableSizes: [String!]!
+  category: String!
+  createdAt: DateTime!
+  description: String!
+  id: ID!
+  images: [String!]!
+  isActive: Boolean!
+  name: String!
+  price: Float!
+  reviews: [Review!]
+  stockQuantity: Int!
+  storeId: String!
+  updatedAt: DateTime!
+}
+
+input ProductFilterInput {
+  availableColors: [String!]
+  availableSizes: [String!]
+  category: String
+  isActive: Boolean
+  limit: Int
+  maxPrice: Float
+  minPrice: Float
+  minRating: Int
+  offset: Int
+  search: String
+  sortBy: String
+  sortOrder: String
 }
 
 type Query {
@@ -42,10 +99,23 @@ type Query {
   hello: String!
   me: User!
   myStores: [Store!]!
+  product(id: String!): Product!
+  productReviews(productId: String!): [Review!]!
+  products(filter: ProductFilterInput): [Product!]!
   store(slug: String!): Store!
   storeById(id: String!): Store!
   verifySlugAvailability(slug: String!): SlugAvailability!
   verifySubdomainAvailability(subdomain: String!): SubdomainAvailability!
+}
+
+type Review {
+  comment: String!
+  createdAt: DateTime!
+  customerName: String!
+  id: ID!
+  isApproved: Boolean!
+  productId: String!
+  rating: Int!
 }
 
 input SignInInput {
@@ -80,6 +150,18 @@ type Store {
 type SubdomainAvailability {
   available: Boolean!
   subdomain: String!
+}
+
+input UpdateProductInput {
+  availableColors: [String!]
+  availableSizes: [String!]
+  category: String
+  description: String
+  images: [String!]
+  isActive: Boolean
+  name: String
+  price: Float
+  stockQuantity: Int
 }
 
 input UpdateStoreInput {
