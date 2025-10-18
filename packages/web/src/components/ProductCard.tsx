@@ -3,13 +3,10 @@ import { ImageWithFallback } from "./ImageWithFallback";
 import { Button } from "./ui/button";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "../contexts/CartContext";
+import { Product } from "../lib/graphql/types";
 
-interface ProductCardProps {
-  id: string;
-  category: string;
-  name: string;
-  description: string;
-  price?: number;
+interface ProductCardProps extends Product {
+  // Keep the original props for backward compatibility
   image?: string;
 }
 
@@ -19,9 +16,13 @@ export function ProductCard({
   name,
   description,
   price,
-  image,
+  images,
+  image, // For backward compatibility
 }: ProductCardProps) {
   const { addItem } = useCart();
+
+  // Use the first image from the images array, or fall back to the image prop
+  const productImage = images?.[0] || image;
 
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -32,7 +33,7 @@ export function ProductCard({
         id,
         name,
         price,
-        image,
+        image: productImage,
         category,
       });
     }
@@ -45,7 +46,7 @@ export function ProductCard({
           {/* Product Image */}
           <div className="aspect-square bg-gray-100 overflow-hidden relative">
             <ImageWithFallback
-              src={image || ""}
+              src={productImage || ""}
               alt={name}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
