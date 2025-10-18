@@ -2,6 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type About {
+  id: ID!
+  offerings: String!
+  philosophy: String!
+  storeId: String!
+  updatedAt: DateTime!
+  vision: String!
+}
+
 type AuthPayload {
   access_token: String!
   user: User!
@@ -123,6 +132,7 @@ type Mutation {
   reorderFAQs(faqIds: [String!]!): [FAQ!]!
   signIn(input: SignInInput!): AuthPayload!
   signUp(input: SignUpInput!): AuthPayload!
+  updateAbout(input: UpdateAboutInput!): About!
   updateBlogPost(id: String!, input: UpdateBlogPostInput!): BlogPost!
   updateFAQ(id: String!, input: UpdateFAQInput!): FAQ!
   updateOrder(id: String!, input: UpdateOrderInput!): Order!
@@ -202,6 +212,8 @@ input ProductFilterInput {
 }
 
 type Query {
+  about: About!
+  aboutById(id: String!): About!
   blogCategories: [String!]!
   blogPost(id: String!): BlogPost!
   blogPosts(filter: BlogFilterInput): [BlogPost!]!
@@ -267,6 +279,12 @@ type Store {
 type SubdomainAvailability {
   available: Boolean!
   subdomain: String!
+}
+
+input UpdateAboutInput {
+  offerings: String
+  philosophy: String
+  vision: String
 }
 
 input UpdateBlogPostInput {
