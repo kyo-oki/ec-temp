@@ -7,20 +7,44 @@ type AuthPayload {
   user: User!
 }
 
+input CreateStoreInput {
+  name: String!
+  settings: String
+  slug: String!
+  subdomain: String!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
 
+type DomainVerification {
+  domain: String!
+  store: Store!
+  verified: Boolean!
+}
+
 type Mutation {
+  addCustomDomain(customDomain: String!, storeId: String!): Store!
+  createStore(input: CreateStoreInput!): Store!
+  deleteStore(storeId: String!): String!
+  removeCustomDomain(storeId: String!): Store!
   signIn(input: SignInInput!): AuthPayload!
   signUp(input: SignUpInput!): AuthPayload!
+  updateStore(input: UpdateStoreInput!): Store!
+  verifyCustomDomain(storeId: String!): DomainVerification!
 }
 
 type Query {
   health: String!
   hello: String!
   me: User!
+  myStores: [Store!]!
+  store(slug: String!): Store!
+  storeById(id: String!): Store!
+  verifySlugAvailability(slug: String!): SlugAvailability!
+  verifySubdomainAvailability(subdomain: String!): SubdomainAvailability!
 }
 
 input SignInInput {
@@ -32,6 +56,37 @@ input SignUpInput {
   email: String!
   name: String!
   password: String!
+}
+
+type SlugAvailability {
+  available: Boolean!
+  slug: String!
+}
+
+type Store {
+  createdAt: DateTime!
+  customDomain: String
+  customDomainVerified: Boolean!
+  id: ID!
+  name: String!
+  ownerId: String!
+  settings: String!
+  slug: String!
+  subdomain: String!
+  updatedAt: DateTime!
+}
+
+type SubdomainAvailability {
+  available: Boolean!
+  subdomain: String!
+}
+
+input UpdateStoreInput {
+  customDomain: String
+  customDomainVerified: Boolean
+  id: ID!
+  name: String
+  settings: String
 }
 
 type User {
