@@ -4,6 +4,7 @@ import { ProductCard } from "../components/ProductCard";
 import { Input } from "../components/ui/input";
 import { Checkbox } from "../components/ui/checkbox";
 import { Slider } from "../components/ui/slider";
+import { Label } from "../components/ui/label";
 // import { useSearchParams } from "react-router-dom";
 
 export function ShopPage() {
@@ -157,12 +158,12 @@ export function ShopPage() {
                         checked={selectedCategories.includes(category)}
                         onCheckedChange={() => handleCategoryToggle(category)}
                       />
-                      <label
+                      <Label
                         htmlFor={category}
-                        className="text-sm cursor-pointer"
+                        className="text-sm cursor-pointer mb-0"
                       >
                         {category}
-                      </label>
+                      </Label>
                     </div>
                   ))}
                 </div>

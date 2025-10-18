@@ -9,38 +9,43 @@ export function AboutPage() {
           </p>
         </div>
       </div>
-      
+
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-3xl mx-auto space-y-8">
           <div className="bg-white rounded-lg p-8 shadow-sm">
             <p className="text-lg text-gray-700">
-              ProGear Hub is dedicated to providing high-quality sports equipment to individuals, 
-              teams, and schools. Our mission is to make sports accessible and enjoyable for everyone.
+              ProGear Hub is dedicated to providing high-quality sports
+              equipment to individuals, teams, and schools. Our mission is to
+              make sports accessible and enjoyable for everyone.
             </p>
           </div>
-          
+
           <div className="bg-white rounded-lg p-8 shadow-sm">
             <h2 className="mb-4">Our Philosophy</h2>
             <p className="text-gray-700">
-              We believe that the right equipment can make all the difference in performance and enjoyment. 
-              That's why we carefully curate our product selection to ensure quality, durability, and value.
+              We believe that the right equipment can make all the difference in
+              performance and enjoyment. That's why we carefully curate our
+              product selection to ensure quality, durability, and value.
             </p>
           </div>
-          
+
           <div className="bg-white rounded-lg p-8 shadow-sm">
             <h2 className="mb-4">Our Vision</h2>
             <p className="text-gray-700">
-              To become the most trusted source for sports equipment, known for our commitment to 
-              quality, customer service, and supporting active lifestyles.
+              To become the most trusted source for sports equipment, known for
+              our commitment to quality, customer service, and supporting active
+              lifestyles.
             </p>
           </div>
-          
+
           <div className="bg-white rounded-lg p-8 shadow-sm">
             <h2 className="mb-4">What We Offer</h2>
             <ul className="space-y-3 text-gray-700">
               <li className="flex items-start gap-3">
                 <span className="text-blue-600 mt-1">✓</span>
-                <span>Wide selection of sports equipment across multiple disciplines</span>
+                <span>
+                  Wide selection of sports equipment across multiple disciplines
+                </span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-blue-600 mt-1">✓</span>

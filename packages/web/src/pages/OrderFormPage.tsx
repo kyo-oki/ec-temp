@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Button } from "../components/ui/button";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { ImageWithFallback } from "../components/ImageWithFallback";
+import { useCart } from "../contexts/CartContext";
 
 export function OrderFormPage() {
   const navigate = useNavigate();
-  const [quantity, setQuantity] = useState(1);
+  const { state: cartState, updateQuantity, removeItem, clearCart } = useCart();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -19,14 +20,21 @@ export function OrderFormPage() {
     postcode: "",
   });
 
-  const productPrice = 49.99;
   const shippingFee = 9.99;
-  const gst = productPrice * quantity * 0.1;
-  const subtotal = productPrice * quantity;
+  const subtotal = cartState.total;
+  const gst = subtotal * 0.1;
   const total = subtotal + shippingFee + gst;
 
-  const handleQuantityChange = (delta: number) => {
-    setQuantity(Math.max(1, quantity + delta));
+  const handleQuantityChange = (itemId: string, delta: number) => {
+    const item = cartState.items.find((item) => item.id === itemId);
+    if (item) {
+      const newQuantity = Math.max(1, item.quantity + delta);
+      updateQuantity(itemId, newQuantity);
+    }
+  };
+
+  const handleRemoveItem = (itemId: string) => {
+    removeItem(itemId);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,8 +48,28 @@ export function OrderFormPage() {
     e.preventDefault();
     // Handle form submission
     alert("Order submitted successfully!");
+    clearCart(); // Clear cart after successful order
     navigate("/");
   };
+
+  // Handle empty cart state
+  if (cartState.items.length === 0) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <div className="container mx-auto px-4 py-12">
+          <div className="max-w-2xl mx-auto text-center">
+            <h1 className="text-2xl font-bold mb-4">Your Cart is Empty</h1>
+            <p className="text-gray-600 mb-8">
+              Add some items to your cart before proceeding to checkout.
+            </p>
+            <Button onClick={() => navigate("/shop")} size="lg">
+              Continue Shopping
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -150,39 +178,67 @@ export function OrderFormPage() {
               <h2 className="text-center mb-8">Order Summary</h2>
 
               <div className="bg-white border rounded-lg p-6 mb-8 shadow-sm">
-                {/* Product Item */}
-                <div className="flex gap-4 mb-6 pb-6 border-b">
-                  <div className="w-24 h-24 bg-gray-100 flex-shrink-0 rounded overflow-hidden">
-                    <ImageWithFallback
-                      src="https://images.unsplash.com/photo-1663683181863-7bd34db211d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb2NjZXIlMjBiYWxsJTIwZXF1aXBtZW50fGVufDF8fHx8MTc2MDYyODMyOXww&ixlib=rb-4.1.0&q=80&w=1080"
-                      alt="Professional Soccer Ball"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="flex-grow">
-                    <h3 className="mb-2">Professional Soccer Ball</h3>
-                    <p className="mb-3 text-blue-600">
-                      ${productPrice.toFixed(2)}
-                    </p>
-                    <div className="flex items-center gap-3">
-                      <button
-                        type="button"
-                        onClick={() => handleQuantityChange(-1)}
-                        className="w-8 h-8 border rounded flex items-center justify-center hover:bg-gray-100"
-                      >
-                        <Minus className="w-4 h-4" />
-                      </button>
-                      <span className="w-8 text-center">{quantity}</span>
-                      <button
-                        type="button"
-                        onClick={() => handleQuantityChange(1)}
-                        className="w-8 h-8 border rounded flex items-center justify-center hover:bg-gray-100"
-                      >
-                        <Plus className="w-4 h-4" />
-                      </button>
+                {/* Cart Items */}
+                {cartState.items.map((item, index) => (
+                  <div
+                    key={`${item.id}-${item.size || ""}-${item.color || ""}`}
+                    className={`flex gap-4 mb-6 pb-6 ${
+                      index < cartState.items.length - 1 ? "border-b" : ""
+                    }`}
+                  >
+                    <div className="w-24 h-24 bg-gray-100 flex-shrink-0 rounded overflow-hidden">
+                      <ImageWithFallback
+                        src={
+                          item.image ||
+                          "https://images.unsplash.com/photo-1663683181863-7bd34db211d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb2NjZXIlMjBiYWxsJTIwZXF1aXBtZW50fGVufDF8fHx8MTc2MDYyODMyOXww&ixlib=rb-4.1.0&q=80&w=1080"
+                        }
+                        alt={item.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="flex-grow">
+                      <h3 className="mb-2">{item.name}</h3>
+                      {item.size && (
+                        <p className="text-sm text-gray-600 mb-1">
+                          Size: {item.size}
+                        </p>
+                      )}
+                      {item.color && (
+                        <p className="text-sm text-gray-600 mb-1">
+                          Color: {item.color}
+                        </p>
+                      )}
+                      <p className="mb-3 text-blue-600">
+                        ${item.price.toFixed(2)}
+                      </p>
+                      <div className="flex items-center gap-3">
+                        <button
+                          type="button"
+                          onClick={() => handleQuantityChange(item.id, -1)}
+                          className="w-8 h-8 border rounded flex items-center justify-center hover:bg-gray-100"
+                        >
+                          <Minus className="w-4 h-4" />
+                        </button>
+                        <span className="w-8 text-center">{item.quantity}</span>
+                        <button
+                          type="button"
+                          onClick={() => handleQuantityChange(item.id, 1)}
+                          className="w-8 h-8 border rounded flex items-center justify-center hover:bg-gray-100"
+                        >
+                          <Plus className="w-4 h-4" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveItem(item.id)}
+                          className="w-8 h-8 border rounded flex items-center justify-center hover:bg-red-100 text-red-600"
+                          title="Remove item"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
+                ))}
 
                 {/* Price Breakdown */}
                 <div className="space-y-3">
