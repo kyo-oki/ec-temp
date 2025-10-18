@@ -1,159 +1,349 @@
-# E-Commerce Platform - Multi-Tenant SaaS
+# ProGear Hub - Multi-tenant E-commerce Platform
 
-A modern, multi-tenant e-commerce platform built with NestJS, GraphQL, Prisma, and React.
+A modern, scalable e-commerce platform built with NestJS, React, and GraphQL, featuring multi-tenant architecture with subdomain-based store isolation.
 
-## Project Structure
+## 🚀 Features
 
-```
-ecommerce-platform/
-├── packages/
-│   ├── web/              # React frontend (Vite)
-│   └── backend/          # NestJS GraphQL API
-├── docker-compose.yml    # PostgreSQL for local development
-└── package.json          # Workspace configuration
-```
+### Core Platform
+- **Multi-tenant Architecture**: Each store gets its own subdomain and isolated data
+- **GraphQL API**: Type-safe API with real-time subscriptions
+- **Modern Frontend**: React with TypeScript and Tailwind CSS
+- **Authentication**: JWT-based authentication with role management
+- **File Storage**: Integrated file upload with Vercel Blob support
 
-## Prerequisites
+### Store Management
+- **Store Creation**: Easy store setup with custom slugs and subdomains
+- **Product Management**: Full CRUD operations for products with variants
+- **Order Management**: Complete order processing with status tracking
+- **Inventory Management**: Stock tracking and low-stock alerts
+- **Review System**: Customer reviews with moderation
 
-- Node.js 20.x
-- npm 10.x
-- Docker & Docker Compose
+### Content Management
+- **Blog System**: Content management with categories and tags
+- **FAQ Management**: Dynamic FAQ system with reordering
+- **About Pages**: Customizable store information pages
+- **Contact Forms**: Customer inquiry management
+- **Promotions**: Discount and promotion management
 
-## Getting Started
+### Multi-tenant Features
+- **Subdomain Routing**: `store1.yourdomain.com`, `store2.yourdomain.com`
+- **Data Isolation**: Complete tenant data separation
+- **Custom Domains**: Store owners can use their own domains
+- **Tenant Context**: Automatic tenant resolution from subdomains
 
-### 1. Install Dependencies
+## 🏗️ Architecture
 
-```bash
-npm install
-```
+### Backend (NestJS + GraphQL)
+- **Framework**: NestJS with Apollo Server
+- **Database**: PostgreSQL with Prisma ORM
+- **Authentication**: JWT with Passport.js
+- **File Storage**: Vercel Blob for production, local storage for development
+- **Multi-tenancy**: Subdomain-based tenant isolation
 
-### 2. Start PostgreSQL Database
-
-```bash
-npm run docker:up
-```
-
-### 3. Set Up Backend Environment
-
-```bash
-cp packages/backend/.env.example packages/backend/.env
-```
-
-### 4. Run Database Migrations (Coming in Task 2)
-
-```bash
-npm run prisma:migrate
-```
-
-### 5. Start Development Servers
-
-**Start both frontend and backend:**
-
-```bash
-npm run dev:all
-```
-
-**Or start individually:**
-
-```bash
-# Frontend only (http://localhost:5173)
-npm run dev
-
-# Backend only (http://localhost:3000)
-npm run dev:backend
-```
-
-## Available Scripts
-
-### Root Level
-
-- `npm run dev` - Start frontend dev server
-- `npm run dev:backend` - Start backend dev server
-- `npm run dev:all` - Start both frontend and backend
-- `npm run build` - Build all packages
-- `npm run lint` - Lint all packages
-- `npm run type-check` - Type check all packages
-- `npm run docker:up` - Start Docker containers
-- `npm run docker:down` - Stop Docker containers
-- `npm run prisma:migrate` - Run database migrations
-- `npm run prisma:studio` - Open Prisma Studio
-
-### Frontend (packages/web)
-
-- `npm run dev --workspace=packages/web` - Start dev server
-- `npm run build --workspace=packages/web` - Build for production
-- `npm run lint --workspace=packages/web` - Lint code
-- `npm run type-check --workspace=packages/web` - Type check
-
-### Backend (packages/backend)
-
-- `npm run start:dev --workspace=packages/backend` - Start dev server
-- `npm run build --workspace=packages/backend` - Build for production
-- `npm run lint --workspace=packages/backend` - Lint code
-- `npm run type-check --workspace=packages/backend` - Type check
-
-## Tech Stack
-
-### Frontend
-
-- React 18
-- TypeScript
-- Vite
-- Tailwind CSS
-- Radix UI
-- Apollo Client (coming soon)
-
-### Backend
-
-- NestJS 11
-- GraphQL with Apollo Server (coming soon)
-- Prisma ORM (coming soon)
-- PostgreSQL 16
-- TypeScript
+### Frontend (React + TypeScript)
+- **Framework**: React 18 with TypeScript
+- **Styling**: Tailwind CSS with shadcn/ui components
+- **State Management**: Apollo Client for GraphQL
+- **Routing**: React Router with protected routes
+- **Build Tool**: Vite for fast development and building
 
 ### Infrastructure
+- **Deployment**: Vercel for both frontend and backend
+- **Database**: Vercel Postgres for production
+- **File Storage**: Vercel Blob for production
+- **DNS**: Wildcard subdomain support
+- **SSL**: Automatic SSL certificate management
 
-- Docker & Docker Compose (local development)
-- Vercel (production deployment)
+## 📁 Project Structure
 
-## Development Workflow
+```
+progearhub/
+├── packages/
+│   ├── backend/                 # NestJS GraphQL API
+│   │   ├── src/
+│   │   │   ├── auth/           # Authentication module
+│   │   │   ├── store/          # Store management
+│   │   │   ├── tenant/         # Multi-tenant context
+│   │   │   ├── products/       # Product management
+│   │   │   ├── orders/         # Order management
+│   │   │   ├── blog/           # Blog management
+│   │   │   ├── faq/            # FAQ management
+│   │   │   ├── about/          # About page management
+│   │   │   ├── contact/        # Contact form management
+│   │   │   ├── promotions/     # Promotion management
+│   │   │   ├── upload/         # File upload service
+│   │   │   └── prisma/         # Database schema and migrations
+│   │   ├── prisma/             # Database migrations and seed
+│   │   └── scripts/            # Deployment scripts
+│   └── web/                    # React frontend
+│       ├── src/
+│       │   ├── components/     # Reusable UI components
+│       │   ├── pages/          # Page components
+│       │   ├── hooks/          # Custom React hooks
+│       │   ├── lib/            # Utilities and GraphQL client
+│       │   └── contexts/       # React contexts
+│       └── public/             # Static assets
+├── docker-compose.yml          # Local development setup
+├── vercel.json                 # Vercel deployment config
+├── DEPLOYMENT.md              # Deployment guide
+├── DNS_SETUP.md               # DNS configuration guide
+└── README.md                  # This file
+```
 
-1. **Task 1 ✅**: Monorepo structure and Docker environment
-2. **Task 2**: Prisma schema and database migrations
-3. **Task 3**: GraphQL setup
-4. **Task 4**: Authentication and user management
-5. **Task 5**: Store management
-6. **Task 6**: Tenant context and isolation
-   7-13. Feature modules (products, orders, blog, etc.)
-7. File uploads
-8. Database seeding
-   16-17. Frontend integration
-9. Vercel deployment
-10. Documentation
+## 🚀 Quick Start
 
-## Database
+### Prerequisites
+- Node.js 18+ and pnpm
+- Docker and Docker Compose
+- Git
 
-PostgreSQL runs in Docker for local development:
+### Local Development
 
-- Host: `localhost`
-- Port: `5432`
-- Database: `ecommerce_dev`
-- User: `ecommerce`
-- Password: `ecommerce_dev_password`
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd progearhub
+   ```
 
-## Environment Variables
+2. **Install dependencies**
+   ```bash
+   pnpm install
+   ```
+
+3. **Start the database**
+   ```bash
+   docker-compose up -d
+   ```
+
+4. **Set up environment variables**
+   ```bash
+   cp packages/backend/.env.example packages/backend/.env
+   # Edit the .env file with your database URL
+   ```
+
+5. **Run database migrations**
+   ```bash
+   pnpm -C packages/backend prisma migrate dev
+   ```
+
+6. **Seed the database**
+   ```bash
+   pnpm -C packages/backend prisma:seed
+   ```
+
+7. **Start the backend**
+   ```bash
+   pnpm -C packages/backend start:dev
+   ```
+
+8. **Start the frontend**
+   ```bash
+   pnpm -C packages/web dev
+   ```
+
+9. **Access the application**
+   - Frontend: http://localhost:5173
+   - Backend API: http://localhost:3000/graphql
+   - GraphQL Playground: http://localhost:3000/graphql
+
+### Production Deployment
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.
+
+## 🔧 Environment Variables
 
 ### Backend (.env)
+```bash
+# Database
+DATABASE_URL="postgresql://username:password@localhost:5432/ecommerce_dev"
 
-```
-NODE_ENV=development
+# CORS
+CORS_ORIGIN="http://localhost:5173"
+
+# GraphQL
+GRAPHQL_PLAYGROUND="true"
+GRAPHQL_INTROSPECTION="true"
+
+# Server
 PORT=3000
-DATABASE_URL=postgresql://ecommerce:ecommerce_dev_password@localhost:5432/ecommerce_dev
-CORS_ORIGIN=http://localhost:5173
-JWT_SECRET=dev_jwt_secret_12345
-JWT_EXPIRES_IN=7d
+
+# JWT
+JWT_SECRET="your-jwt-secret"
+
+# File Upload (Production)
+BLOB_READ_WRITE_TOKEN="your-vercel-blob-token"
 ```
 
-## License
+### Frontend (.env)
+```bash
+# GraphQL Endpoint
+VITE_GRAPHQL_ENDPOINT="http://localhost:3000/graphql"
 
-UNLICENSED - Private Project
+# App URL
+VITE_APP_URL="http://localhost:5173"
+```
+
+## 📚 API Documentation
+
+### GraphQL Schema
+
+The API uses GraphQL with the following main types:
+
+- **User**: Authentication and user management
+- **Store**: Store information and settings
+- **Product**: Product catalog with variants
+- **Order**: Order management and tracking
+- **Review**: Product reviews and ratings
+- **BlogPost**: Blog content management
+- **FAQ**: Frequently asked questions
+- **About**: Store about page content
+- **Contact**: Contact form submissions
+- **Promotion**: Discounts and promotions
+
+### Example Queries
+
+```graphql
+# Get products
+query GetProducts {
+  products {
+    id
+    name
+    price
+    description
+    images
+  }
+}
+
+# Create a store
+mutation CreateStore($input: CreateStoreInput!) {
+  createStore(input: $input) {
+    id
+    name
+    slug
+    subdomain
+  }
+}
+
+# Sign up
+mutation SignUp($input: SignUpInput!) {
+  signUp(input: $input) {
+    accessToken
+    user {
+      id
+      email
+      name
+    }
+  }
+}
+```
+
+See [API_DOCUMENTATION.md](./API_DOCUMENTATION.md) for complete API reference.
+
+## 🏪 Multi-tenant Architecture
+
+### Subdomain Routing
+- `yourdomain.com` - Main platform
+- `api.yourdomain.com` - Backend API
+- `store1.yourdomain.com` - Store 1
+- `store2.yourdomain.com` - Store 2
+
+### Tenant Isolation
+- Each store has its own data namespace
+- Automatic tenant resolution from subdomains
+- Isolated product catalogs, orders, and content
+- Shared authentication across all stores
+
+### Custom Domains
+Store owners can configure custom domains:
+- `store1.com` → `store1.yourdomain.com`
+- DNS verification required
+- Automatic SSL certificate provisioning
+
+## 🛠️ Development
+
+### Available Scripts
+
+#### Backend
+```bash
+pnpm -C packages/backend start:dev    # Start development server
+pnpm -C packages/backend build        # Build for production
+pnpm -C packages/backend test         # Run tests
+pnpm -C packages/backend lint         # Run linter
+pnpm -C packages/backend prisma:studio # Open Prisma Studio
+```
+
+#### Frontend
+```bash
+pnpm -C packages/web dev              # Start development server
+pnpm -C packages/web build            # Build for production
+pnpm -C packages/web preview          # Preview production build
+pnpm -C packages/web lint             # Run linter
+```
+
+#### Database
+```bash
+pnpm -C packages/backend prisma migrate dev    # Run migrations
+pnpm -C packages/backend prisma generate       # Generate Prisma client
+pnpm -C packages/backend prisma:seed           # Seed database
+```
+
+### Code Quality
+- **TypeScript**: Full type safety
+- **ESLint**: Code linting and formatting
+- **Prettier**: Code formatting
+- **Husky**: Pre-commit hooks
+- **Jest**: Unit and integration testing
+
+## 🚀 Deployment
+
+### Vercel Deployment
+1. Connect your GitHub repository to Vercel
+2. Configure environment variables
+3. Deploy backend and frontend separately
+4. Set up custom domains and DNS
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed instructions.
+
+### Environment Setup
+- **Development**: Docker Compose with local PostgreSQL
+- **Production**: Vercel Postgres with connection pooling
+- **File Storage**: Vercel Blob for production, local storage for development
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests and linting
+5. Submit a pull request
+
+### Development Guidelines
+- Follow TypeScript best practices
+- Write tests for new features
+- Update documentation as needed
+- Use conventional commit messages
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🆘 Support
+
+- **Documentation**: Check the docs folder for detailed guides
+- **Issues**: Create an issue on GitHub
+- **Discussions**: Use GitHub Discussions for questions
+
+## 🗺️ Roadmap
+
+- [ ] Advanced analytics and reporting
+- [ ] Payment gateway integration
+- [ ] Email marketing integration
+- [ ] Mobile app (React Native)
+- [ ] Advanced inventory management
+- [ ] Multi-language support
+- [ ] Advanced SEO features
+- [ ] API rate limiting and caching
+
+---
+
+Built with ❤️ using NestJS, React, GraphQL, and Vercel.
