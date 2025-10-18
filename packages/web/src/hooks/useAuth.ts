@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client/react';
-import { SIGN_UP, SIGN_IN, GET_ME } from '../lib/graphql/queries';
+import { SIGN_UP, SIGN_IN } from '../lib/graphql/mutations';
+import { GET_ME } from '../lib/graphql/queries';
 import { SignUpInput, SignInInput, AuthPayload, User } from '../lib/graphql/types';
 
 export const useAuth = () => {

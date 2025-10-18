@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Menu, ShoppingCart, ChevronDown, X } from "lucide-react";
+import { Menu, ShoppingCart, ChevronDown, X, User, LogOut } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "./ui/button";
 import { LogoWithText } from "./Logo";
 import { useCart } from "../contexts/CartContext";
+import { useAuth } from "../hooks/useAuth";
 import { ShoppingCart as CartComponent } from "./ShoppingCart";
 
 export function Header() {
@@ -11,6 +12,7 @@ export function Header() {
   const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
   const location = useLocation();
   const { state, toggleCart } = useCart();
+  const { isAuthenticated, user, signOut } = useAuth();
 
   const isActivePage = (path: string) => location.pathname === path;
 
@@ -120,10 +122,33 @@ export function Header() {
                 </span>
               )}
             </Button>
-            <Button variant="outline" size="sm">
-              Sign in
-            </Button>
-            <Button size="sm">Register</Button>
+            
+            {isAuthenticated ? (
+              <div className="flex items-center gap-3">
+                <Link to="/dashboard">
+                  <Button variant="outline" size="sm">
+                    <User className="w-4 h-4 mr-2" />
+                    {user?.name || "Dashboard"}
+                  </Button>
+                </Link>
+                <Link to="/admin">
+                  <Button size="sm">Admin</Button>
+                </Link>
+                <Button variant="outline" size="sm" onClick={signOut}>
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Sign Out
+                </Button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3">
+                <Link to="/signin">
+                  <Button variant="outline" size="sm">Sign In</Button>
+                </Link>
+                <Link to="/signup">
+                  <Button size="sm">Register</Button>
+                </Link>
+              </div>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -200,10 +225,33 @@ export function Header() {
                     </span>
                   )}
                 </Button>
-                <Button variant="outline" size="sm">
-                  Sign in
-                </Button>
-                <Button size="sm">Register</Button>
+                
+                {isAuthenticated ? (
+                  <>
+                    <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)}>
+                      <Button variant="outline" size="sm" className="w-full">
+                        <User className="w-4 h-4 mr-2" />
+                        {user?.name || "Dashboard"}
+                      </Button>
+                    </Link>
+                    <Link to="/admin" onClick={() => setMobileMenuOpen(false)}>
+                      <Button size="sm" className="w-full">Admin</Button>
+                    </Link>
+                    <Button variant="outline" size="sm" onClick={signOut} className="w-full">
+                      <LogOut className="w-4 h-4 mr-2" />
+                      Sign Out
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/signin" onClick={() => setMobileMenuOpen(false)}>
+                      <Button variant="outline" size="sm" className="w-full">Sign In</Button>
+                    </Link>
+                    <Link to="/signup" onClick={() => setMobileMenuOpen(false)}>
+                      <Button size="sm" className="w-full">Register</Button>
+                    </Link>
+                  </>
+                )}
               </div>
             </nav>
           </div>
