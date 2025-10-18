@@ -1,0 +1,49 @@
+/* Custom Swiper styles for product gallery */
+.product-gallery-swiper {
+  --swiper-navigation-color: #3b82f6;
+  --swiper-pagination-color: #3b82f6;
+  --swiper-pagination-bullet-inactive-color: #d1d5db;
+  --swiper-pagination-bullet-inactive-opacity: 0.5;
+}
+
+.product-gallery-swiper .swiper-button-next,
+.product-gallery-swiper .swiper-button-prev {
+  color: #3b82f6;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-top: -20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-gallery-swiper .swiper-button-next:after,
+.product-gallery-swiper .swiper-button-prev:after {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.product-gallery-swiper .swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background: #3b82f6;
+  opacity: 0.5;
+}
+
+.product-gallery-swiper .swiper-pagination-bullet-active {
+  opacity: 1;
+}
+
+/* Thumbnail swiper styles */
+.thumbnail-swiper .swiper-slide {
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.thumbnail-swiper .swiper-slide-thumb-active {
+  opacity: 1;
+}
+
+.thumbnail-swiper .swiper-slide:hover {
+  opacity: 0.8;
+}

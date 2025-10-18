@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+# Check if the project builds successfully
+echo "Checking if project builds..."
+if npm run build; then
+  echo "Build check passed!"
+else
+  echo "Build failed!"
+  exit 1
+fi
+
+echo "All checks passed!"
