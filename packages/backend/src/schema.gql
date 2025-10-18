@@ -95,6 +95,15 @@ input CreateProductInput {
   stockQuantity: Int!
 }
 
+input CreatePromotionInput {
+  description: String!
+  discountPercentage: Float!
+  endDate: DateTime!
+  isActive: Boolean! = true
+  startDate: DateTime!
+  title: String!
+}
+
 input CreateReviewInput {
   comment: String!
   customerName: String!
@@ -138,6 +147,7 @@ type Mutation {
   createFAQ(input: CreateFAQInput!): FAQ!
   createOrder(input: CreateOrderInput!): Order!
   createProduct(input: CreateProductInput!): Product!
+  createPromotion(input: CreatePromotionInput!): Promotion!
   createReview(input: CreateReviewInput!): Review!
   createStore(input: CreateStoreInput!): Store!
   deleteBlogPost(id: String!): BlogPost!
@@ -146,6 +156,7 @@ type Mutation {
   deleteOrder(id: String!): Order!
   deleteOrderItem(id: String!): OrderItem!
   deleteProduct(id: String!): Product!
+  deletePromotion(id: String!): Promotion!
   deleteReview(id: String!): Review!
   deleteStore(storeId: String!): String!
   markContactAsRead(id: String!): Contact!
@@ -159,6 +170,7 @@ type Mutation {
   updateFAQ(id: String!, input: UpdateFAQInput!): FAQ!
   updateOrder(id: String!, input: UpdateOrderInput!): Order!
   updateProduct(id: String!, input: UpdateProductInput!): Product!
+  updatePromotion(id: String!, input: UpdatePromotionInput!): Promotion!
   updateStore(input: UpdateStoreInput!): Store!
   verifyCustomDomain(storeId: String!): DomainVerification!
 }
@@ -233,9 +245,29 @@ input ProductFilterInput {
   sortOrder: String
 }
 
+type Promotion {
+  createdAt: DateTime!
+  description: String!
+  discountPercentage: Float!
+  endDate: DateTime!
+  id: ID!
+  isActive: Boolean!
+  startDate: DateTime!
+  storeId: String!
+  title: String!
+  updatedAt: DateTime!
+}
+
+input PromotionFilterInput {
+  isActive: Boolean
+  isCurrentlyActive: Boolean
+  search: String
+}
+
 type Query {
   about: About!
   aboutById(id: String!): About!
+  activePromotions: [Promotion!]!
   blogCategories: [String!]!
   blogPost(id: String!): BlogPost!
   blogPosts(filter: BlogFilterInput): [BlogPost!]!
@@ -243,6 +275,7 @@ type Query {
   contactStats: String!
   contacts(isRead: Boolean): [Contact!]!
   currentStore: Store!
+  expiredPromotions: [Promotion!]!
   faq(id: String!): FAQ!
   faqs: [FAQ!]!
   health: String!
@@ -255,9 +288,12 @@ type Query {
   product(id: String!): Product!
   productReviews(productId: String!): [Review!]!
   products(filter: ProductFilterInput): [Product!]!
+  promotion(id: String!): Promotion!
+  promotions(filter: PromotionFilterInput): [Promotion!]!
   publishedBlogPosts(filter: BlogFilterInput): [BlogPost!]!
   store(slug: String!): Store!
   storeById(id: String!): Store!
+  upcomingPromotions: [Promotion!]!
   verifySlugAvailability(slug: String!): SlugAvailability!
   verifySubdomainAvailability(subdomain: String!): SubdomainAvailability!
 }
@@ -348,6 +384,15 @@ input UpdateProductInput {
   name: String
   price: Float
   stockQuantity: Int
+}
+
+input UpdatePromotionInput {
+  description: String
+  discountPercentage: Float
+  endDate: DateTime
+  isActive: Boolean
+  startDate: DateTime
+  title: String
 }
 
 input UpdateStoreInput {

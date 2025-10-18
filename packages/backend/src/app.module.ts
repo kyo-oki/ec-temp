@@ -16,6 +16,7 @@ import { BlogModule } from './blog/blog.module';
 import { FAQModule } from './faq/faq.module';
 import { AboutModule } from './about/about.module';
 import { ContactModule } from './contact/contact.module';
+import { PromotionsModule } from './promotions/promotions.module';
 import { GraphQLExceptionFilter } from './common/filters/graphql-exception.filter';
 
 @Module({
@@ -46,6 +47,7 @@ import { GraphQLExceptionFilter } from './common/filters/graphql-exception.filte
     FAQModule,
     AboutModule,
     ContactModule,
+    PromotionsModule,
   ],
   controllers: [AppController],
   providers: [
