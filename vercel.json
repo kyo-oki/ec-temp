@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "packages/web/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "packages/web/build"
+      }
+    },
+    {
+      "src": "packages/backend/dist/main.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "packages/backend/dist/main.js"
+    },
+    {
+      "src": "/graphql",
+      "dest": "packages/backend/dist/main.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "packages/web/build/index.html"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "functions": {
+    "packages/backend/dist/main.js": {
+      "maxDuration": 30
+    }
+  }
+}

@@ -13,7 +13,9 @@ export class UploadResolver {
   @Mutation(() => UploadResult)
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file: Express.Multer.File): UploadResult {
-    return this.uploadService.processUpload(file);
+  async uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+  ): Promise<UploadResult> {
+    return await this.uploadService.processUpload(file);
   }
 }

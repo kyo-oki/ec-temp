@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { SubdomainMiddleware } from './middleware/subdomain.middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -10,6 +11,9 @@ async function bootstrap() {
     origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
     credentials: true,
   });
+
+  // Enable subdomain middleware for multi-tenant routing
+  app.use(new SubdomainMiddleware().use.bind(new SubdomainMiddleware()));
 
   // Enable validation pipe for DTOs
   app.useGlobalPipes(
