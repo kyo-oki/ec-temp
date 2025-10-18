@@ -39,6 +39,12 @@ input CreateBlogPostInput {
   title: String!
 }
 
+input CreateFAQInput {
+  answer: String!
+  displayOrder: Int! = 0
+  question: String!
+}
+
 input CreateOrderInput {
   city: String!
   customerEmail: String!
@@ -87,24 +93,38 @@ type DomainVerification {
   verified: Boolean!
 }
 
+type FAQ {
+  answer: String!
+  createdAt: DateTime!
+  displayOrder: Int!
+  id: ID!
+  question: String!
+  storeId: String!
+  updatedAt: DateTime!
+}
+
 type Mutation {
   addCustomDomain(customDomain: String!, storeId: String!): Store!
   approveReview(id: String!): Review!
   createBlogPost(input: CreateBlogPostInput!): BlogPost!
+  createFAQ(input: CreateFAQInput!): FAQ!
   createOrder(input: CreateOrderInput!): Order!
   createProduct(input: CreateProductInput!): Product!
   createReview(input: CreateReviewInput!): Review!
   createStore(input: CreateStoreInput!): Store!
   deleteBlogPost(id: String!): BlogPost!
+  deleteFAQ(id: String!): FAQ!
   deleteOrder(id: String!): Order!
   deleteOrderItem(id: String!): OrderItem!
   deleteProduct(id: String!): Product!
   deleteReview(id: String!): Review!
   deleteStore(storeId: String!): String!
   removeCustomDomain(storeId: String!): Store!
+  reorderFAQs(faqIds: [String!]!): [FAQ!]!
   signIn(input: SignInInput!): AuthPayload!
   signUp(input: SignUpInput!): AuthPayload!
   updateBlogPost(id: String!, input: UpdateBlogPostInput!): BlogPost!
+  updateFAQ(id: String!, input: UpdateFAQInput!): FAQ!
   updateOrder(id: String!, input: UpdateOrderInput!): Order!
   updateProduct(id: String!, input: UpdateProductInput!): Product!
   updateStore(input: UpdateStoreInput!): Store!
@@ -186,6 +206,8 @@ type Query {
   blogPost(id: String!): BlogPost!
   blogPosts(filter: BlogFilterInput): [BlogPost!]!
   currentStore: Store!
+  faq(id: String!): FAQ!
+  faqs: [FAQ!]!
   health: String!
   hello: String!
   me: User!
@@ -254,6 +276,12 @@ input UpdateBlogPostInput {
   isPublished: Boolean
   thumbnailUrl: String
   title: String
+}
+
+input UpdateFAQInput {
+  answer: String
+  displayOrder: Int
+  question: String
 }
 
 input UpdateOrderInput {
