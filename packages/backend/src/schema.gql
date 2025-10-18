@@ -39,6 +39,17 @@ type BlogPost {
   updatedAt: DateTime!
 }
 
+type Contact {
+  createdAt: DateTime!
+  email: String!
+  id: ID!
+  isRead: Boolean!
+  message: String!
+  name: String!
+  storeId: String!
+  subject: String!
+}
+
 input CreateBlogPostInput {
   category: String!
   content: String!
@@ -46,6 +57,13 @@ input CreateBlogPostInput {
   isPublished: Boolean! = false
   thumbnailUrl: String
   title: String!
+}
+
+input CreateContactInput {
+  email: String!
+  message: String!
+  name: String!
+  subject: String!
 }
 
 input CreateFAQInput {
@@ -116,18 +134,22 @@ type Mutation {
   addCustomDomain(customDomain: String!, storeId: String!): Store!
   approveReview(id: String!): Review!
   createBlogPost(input: CreateBlogPostInput!): BlogPost!
+  createContact(input: CreateContactInput!): Contact!
   createFAQ(input: CreateFAQInput!): FAQ!
   createOrder(input: CreateOrderInput!): Order!
   createProduct(input: CreateProductInput!): Product!
   createReview(input: CreateReviewInput!): Review!
   createStore(input: CreateStoreInput!): Store!
   deleteBlogPost(id: String!): BlogPost!
+  deleteContact(id: String!): Contact!
   deleteFAQ(id: String!): FAQ!
   deleteOrder(id: String!): Order!
   deleteOrderItem(id: String!): OrderItem!
   deleteProduct(id: String!): Product!
   deleteReview(id: String!): Review!
   deleteStore(storeId: String!): String!
+  markContactAsRead(id: String!): Contact!
+  markContactAsUnread(id: String!): Contact!
   removeCustomDomain(storeId: String!): Store!
   reorderFAQs(faqIds: [String!]!): [FAQ!]!
   signIn(input: SignInInput!): AuthPayload!
@@ -217,6 +239,9 @@ type Query {
   blogCategories: [String!]!
   blogPost(id: String!): BlogPost!
   blogPosts(filter: BlogFilterInput): [BlogPost!]!
+  contact(id: String!): Contact!
+  contactStats: String!
+  contacts(isRead: Boolean): [Contact!]!
   currentStore: Store!
   faq(id: String!): FAQ!
   faqs: [FAQ!]!
