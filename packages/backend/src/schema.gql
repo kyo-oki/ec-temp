@@ -7,6 +7,38 @@ type AuthPayload {
   user: User!
 }
 
+input BlogFilterInput {
+  category: String
+  isPublished: Boolean
+  limit: Int
+  offset: Int
+  search: String
+  sortBy: String
+  sortOrder: String
+}
+
+type BlogPost {
+  category: String!
+  content: String!
+  createdAt: DateTime!
+  description: String!
+  id: ID!
+  isPublished: Boolean!
+  storeId: String!
+  thumbnailUrl: String
+  title: String!
+  updatedAt: DateTime!
+}
+
+input CreateBlogPostInput {
+  category: String!
+  content: String!
+  description: String!
+  isPublished: Boolean! = false
+  thumbnailUrl: String
+  title: String!
+}
+
 input CreateOrderInput {
   city: String!
   customerEmail: String!
@@ -58,10 +90,12 @@ type DomainVerification {
 type Mutation {
   addCustomDomain(customDomain: String!, storeId: String!): Store!
   approveReview(id: String!): Review!
+  createBlogPost(input: CreateBlogPostInput!): BlogPost!
   createOrder(input: CreateOrderInput!): Order!
   createProduct(input: CreateProductInput!): Product!
   createReview(input: CreateReviewInput!): Review!
   createStore(input: CreateStoreInput!): Store!
+  deleteBlogPost(id: String!): BlogPost!
   deleteOrder(id: String!): Order!
   deleteOrderItem(id: String!): OrderItem!
   deleteProduct(id: String!): Product!
@@ -70,6 +104,7 @@ type Mutation {
   removeCustomDomain(storeId: String!): Store!
   signIn(input: SignInInput!): AuthPayload!
   signUp(input: SignUpInput!): AuthPayload!
+  updateBlogPost(id: String!, input: UpdateBlogPostInput!): BlogPost!
   updateOrder(id: String!, input: UpdateOrderInput!): Order!
   updateProduct(id: String!, input: UpdateProductInput!): Product!
   updateStore(input: UpdateStoreInput!): Store!
@@ -147,6 +182,9 @@ input ProductFilterInput {
 }
 
 type Query {
+  blogCategories: [String!]!
+  blogPost(id: String!): BlogPost!
+  blogPosts(filter: BlogFilterInput): [BlogPost!]!
   currentStore: Store!
   health: String!
   hello: String!
@@ -158,6 +196,7 @@ type Query {
   product(id: String!): Product!
   productReviews(productId: String!): [Review!]!
   products(filter: ProductFilterInput): [Product!]!
+  publishedBlogPosts(filter: BlogFilterInput): [BlogPost!]!
   store(slug: String!): Store!
   storeById(id: String!): Store!
   verifySlugAvailability(slug: String!): SlugAvailability!
@@ -206,6 +245,15 @@ type Store {
 type SubdomainAvailability {
   available: Boolean!
   subdomain: String!
+}
+
+input UpdateBlogPostInput {
+  category: String
+  content: String
+  description: String
+  isPublished: Boolean
+  thumbnailUrl: String
+  title: String
 }
 
 input UpdateOrderInput {
