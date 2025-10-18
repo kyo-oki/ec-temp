@@ -37,6 +37,7 @@ type Mutation {
 }
 
 type Query {
+  currentStore: Store!
   health: String!
   hello: String!
   me: User!

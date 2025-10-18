@@ -45,7 +45,9 @@ export class StoreService {
         slug: input.slug,
         subdomain: input.subdomain,
         ownerId,
-        settings: input.settings ? (JSON.parse(input.settings) as Prisma.InputJsonValue) : {},
+        settings: input.settings
+          ? (JSON.parse(input.settings) as Prisma.InputJsonValue)
+          : {},
       },
     });
 

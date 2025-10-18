@@ -3,12 +3,15 @@ import { UseGuards } from '@nestjs/common';
 import { StoreService } from './store.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { CurrentTenant } from '../tenant/decorators/current-tenant.decorator';
+import { TenantGuard } from '../tenant/guards/tenant.guard';
 import { CreateStoreInput } from './dto/create-store.input';
 import { UpdateStoreInput } from './dto/update-store.input';
 import { Store } from './dto/store.dto';
 import { SlugAvailability } from './dto/slug-availability.dto';
 import { SubdomainAvailability } from './dto/subdomain-availability.dto';
 import { DomainVerification } from './dto/domain-verification.dto';
+import type { TenantContext } from '../tenant/tenant.service';
 
 @Resolver(() => Store)
 export class StoreResolver {
@@ -58,6 +61,12 @@ export class StoreResolver {
   @Query(() => Store)
   async storeById(@Args('id') id: string) {
     return this.storeService.getStoreById(id);
+  }
+
+  @Query(() => Store)
+  @UseGuards(TenantGuard)
+  async currentStore(@CurrentTenant() tenant: TenantContext) {
+    return this.storeService.getStoreById(tenant.storeId);
   }
 
   @Query(() => SlugAvailability)

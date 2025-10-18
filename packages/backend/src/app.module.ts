@@ -9,6 +9,7 @@ import { AppResolver } from './app.resolver';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { StoreModule } from './store/store.module';
+import { TenantModule } from './tenant/tenant.module';
 import { GraphQLExceptionFilter } from './common/filters/graphql-exception.filter';
 
 @Module({
@@ -32,6 +33,7 @@ import { GraphQLExceptionFilter } from './common/filters/graphql-exception.filte
     PrismaModule,
     AuthModule,
     StoreModule,
+    TenantModule,
   ],
   controllers: [AppController],
   providers: [
