@@ -172,6 +172,7 @@ type Mutation {
   updateProduct(id: String!, input: UpdateProductInput!): Product!
   updatePromotion(id: String!, input: UpdatePromotionInput!): Promotion!
   updateStore(input: UpdateStoreInput!): Store!
+  uploadFile: UploadResult!
   verifyCustomDomain(storeId: String!): DomainVerification!
 }
 
@@ -401,6 +402,14 @@ input UpdateStoreInput {
   id: ID!
   name: String
   settings: String
+}
+
+type UploadResult {
+  filename: String!
+  mimetype: String!
+  originalName: String!
+  size: Float!
+  url: String!
 }
 
 type User {
