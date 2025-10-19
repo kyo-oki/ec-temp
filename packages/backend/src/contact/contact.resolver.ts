@@ -1,7 +1,7 @@
 import { Resolver, Mutation, Query, Args } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { ContactService } from './contact.service';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+// import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { TenantGuard } from '../tenant/guards/tenant.guard';
 import { CurrentTenant } from '../tenant/decorators/current-tenant.decorator';
 import { CreateContactInput } from './dto/create-contact.input';
@@ -22,7 +22,7 @@ export class ContactResolver {
   }
 
   @Query(() => [Contact])
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @UseGuards(TenantGuard)
   async contacts(
     @Args('isRead', { nullable: true }) isRead: boolean,
     @CurrentTenant() tenant: TenantContext,
@@ -31,7 +31,7 @@ export class ContactResolver {
   }
 
   @Query(() => Contact)
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @UseGuards(TenantGuard)
   async contact(
     @Args('id') id: string,
     @CurrentTenant() tenant: TenantContext,
@@ -40,7 +40,7 @@ export class ContactResolver {
   }
 
   @Mutation(() => Contact)
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @UseGuards(TenantGuard)
   async markContactAsRead(
     @Args('id') id: string,
     @CurrentTenant() tenant: TenantContext,
@@ -49,7 +49,7 @@ export class ContactResolver {
   }
 
   @Mutation(() => Contact)
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @UseGuards(TenantGuard)
   async markContactAsUnread(
     @Args('id') id: string,
     @CurrentTenant() tenant: TenantContext,
@@ -58,7 +58,7 @@ export class ContactResolver {
   }
 
   @Mutation(() => Contact)
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @UseGuards(TenantGuard)
   async deleteContact(
     @Args('id') id: string,
     @CurrentTenant() tenant: TenantContext,
@@ -67,7 +67,7 @@ export class ContactResolver {
   }
 
   @Query(() => String)
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @UseGuards(TenantGuard)
   async contactStats(@CurrentTenant() tenant: TenantContext) {
     const stats = await this.contactService.getContactStats(tenant.storeId);
     return JSON.stringify(stats);

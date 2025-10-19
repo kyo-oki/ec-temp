@@ -17,12 +17,28 @@ export class ProductsService {
   async createProduct(storeId: string, input: CreateProductInput) {
     const product = await this.prisma.product.create({
       data: {
-        ...input,
+        name: input.name,
+        description: input.description,
+        price: input.price,
+        category: input.category,
+        images: input.images,
+        availableSizes: input.availableSizes,
+        availableColors: input.availableColors,
+        stockQuantity: input.stockQuantity,
+        isActive: input.isActive,
         storeId,
       },
     });
 
     return product;
+  }
+
+  async getFirstStore() {
+    const store = await this.prisma.store.findFirst();
+    if (!store) {
+      throw new Error('No store found in database');
+    }
+    return store;
   }
 
   async updateProduct(
@@ -267,6 +283,36 @@ export class ProductsService {
     const reviews = await this.prisma.review.findMany({
       where,
       orderBy: { createdAt: 'desc' },
+    });
+
+    return reviews;
+  }
+
+  async getFeaturedReviews(limit: number, storeId?: string) {
+    const where: Prisma.ReviewWhereInput = {
+      isApproved: true,
+    };
+
+    if (storeId) {
+      where.product = {
+        storeId,
+      };
+    }
+
+    const reviews = await this.prisma.review.findMany({
+      where,
+      include: {
+        product: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: limit,
     });
 
     return reviews;

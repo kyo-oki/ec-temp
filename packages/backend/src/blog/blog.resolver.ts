@@ -1,7 +1,7 @@
 import { Resolver, Mutation, Query, Args } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { BlogService } from './blog.service';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+// import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { TenantGuard } from '../tenant/guards/tenant.guard';
 import { CurrentTenant } from '../tenant/decorators/current-tenant.decorator';
 import { CreateBlogPostInput } from './dto/create-blog-post.input';
@@ -15,7 +15,7 @@ export class BlogResolver {
   constructor(private blogService: BlogService) {}
 
   @Mutation(() => BlogPost)
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @UseGuards(TenantGuard)
   async createBlogPost(
     @Args('input') input: CreateBlogPostInput,
     @CurrentTenant() tenant: TenantContext,
@@ -24,7 +24,7 @@ export class BlogResolver {
   }
 
   @Mutation(() => BlogPost)
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @UseGuards(TenantGuard)
   async updateBlogPost(
     @Args('id') id: string,
     @Args('input') input: UpdateBlogPostInput,
@@ -34,7 +34,7 @@ export class BlogResolver {
   }
 
   @Mutation(() => BlogPost)
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @UseGuards(TenantGuard)
   async deleteBlogPost(
     @Args('id') id: string,
     @CurrentTenant() tenant: TenantContext,
@@ -43,7 +43,7 @@ export class BlogResolver {
   }
 
   @Query(() => [BlogPost])
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @UseGuards(TenantGuard)
   async blogPosts(
     @Args('filter', { nullable: true }) filter: BlogFilterInput,
     @CurrentTenant() tenant: TenantContext,

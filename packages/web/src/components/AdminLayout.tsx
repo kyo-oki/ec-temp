@@ -1,19 +1,19 @@
 import { ReactNode, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
-import { 
-  Menu, 
-  Store, 
-  Package, 
-  ShoppingCart, 
-  FileText, 
-  HelpCircle, 
-  Info, 
-  MessageSquare, 
+import {
+  Menu,
+  Store,
+  Package,
+  ShoppingCart,
+  FileText,
+  HelpCircle,
+  Info,
+  MessageSquare,
   Tag,
   Settings,
-  LogOut
+  LogOut,
 } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 
@@ -21,26 +21,43 @@ interface AdminLayoutProps {
   children: ReactNode;
 }
 
-const navigation = [
-  { name: "Dashboard", href: "/admin", icon: Store },
-  { name: "Products", href: "/admin/products", icon: Package },
-  { name: "Orders", href: "/admin/orders", icon: ShoppingCart },
-  { name: "Blog", href: "/admin/blog", icon: FileText },
-  { name: "FAQs", href: "/admin/faqs", icon: HelpCircle },
-  { name: "About", href: "/admin/about", icon: Info },
-  { name: "Contact", href: "/admin/contact", icon: MessageSquare },
-  { name: "Promotions", href: "/admin/promotions", icon: Tag },
-  { name: "Settings", href: "/admin/settings", icon: Settings },
-];
-
 export function AdminLayout({ children }: AdminLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
+  const { storeId } = useParams<{ storeId: string }>();
   const { signOut } = useAuth();
 
   const handleSignOut = () => {
     signOut();
   };
+
+  const navigation = [
+    { name: "Dashboard", href: `/stores/${storeId}/admin`, icon: Store },
+    {
+      name: "Products",
+      href: `/stores/${storeId}/admin/products`,
+      icon: Package,
+    },
+    {
+      name: "Orders",
+      href: `/stores/${storeId}/admin/orders`,
+      icon: ShoppingCart,
+    },
+    { name: "Blog", href: `/stores/${storeId}/admin/blog`, icon: FileText },
+    { name: "FAQs", href: `/stores/${storeId}/admin/faq`, icon: HelpCircle },
+    { name: "About", href: `/stores/${storeId}/admin/about`, icon: Info },
+    {
+      name: "Contact",
+      href: `/stores/${storeId}/admin/contacts`,
+      icon: MessageSquare,
+    },
+    {
+      name: "Promotions",
+      href: `/stores/${storeId}/admin/promotions`,
+      icon: Tag,
+    },
+    { name: "Settings", href: `/stores/${storeId}/settings`, icon: Settings },
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -141,7 +158,10 @@ export function AdminLayout({ children }: AdminLayoutProps) {
               </h1>
             </div>
             <div className="flex items-center space-x-4">
-              <Link to="/" className="text-sm text-gray-600 hover:text-gray-900">
+              <Link
+                to="/"
+                className="text-sm text-gray-600 hover:text-gray-900"
+              >
                 View Store
               </Link>
             </div>
@@ -149,9 +169,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         </div>
 
         {/* Page content */}
-        <main className="px-4 py-6 lg:px-8">
-          {children}
-        </main>
+        <main className="px-4 py-6 lg:px-8">{children}</main>
       </div>
     </div>
   );

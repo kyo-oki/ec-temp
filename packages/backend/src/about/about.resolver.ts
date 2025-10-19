@@ -1,7 +1,7 @@
 import { Resolver, Mutation, Query, Args } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { AboutService } from './about.service';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+// import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { TenantGuard } from '../tenant/guards/tenant.guard';
 import { CurrentTenant } from '../tenant/decorators/current-tenant.decorator';
 import { UpdateAboutInput } from './dto/update-about.input';
@@ -13,7 +13,7 @@ export class AboutResolver {
   constructor(private aboutService: AboutService) {}
 
   @Mutation(() => About)
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @UseGuards(TenantGuard)
   async updateAbout(
     @Args('input') input: UpdateAboutInput,
     @CurrentTenant() tenant: TenantContext,

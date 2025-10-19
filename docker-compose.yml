@@ -1,27 +1,55 @@
 services:
+  # PostgreSQL Database
   postgres:
-    image: postgres:16-alpine
-    container_name: ecommerce-db
+    image: postgres:15
     environment:
-      POSTGRES_USER: ecommerce
-      POSTGRES_PASSWORD: ecommerce_dev_password
-      POSTGRES_DB: ecommerce_dev
+      POSTGRES_DB: progearhub
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ecommerce"]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
       timeout: 5s
       retries: 5
-    networks:
-      - ecommerce-network
+
+  # Backend API
+  backend:
+    build:
+      context: ./packages/backend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/progearhub
+      - JWT_SECRET=your-secret-key
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./packages/backend:/app
+      - /app/node_modules
+    command: npm run start:dev
+
+  # Frontend
+  frontend:
+    build:
+      context: ./packages/web
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:3001/graphql
+    depends_on:
+      - backend
+    volumes:
+      - ./packages/web:/app
+      - /app/node_modules
+    command: npm run dev
 
 volumes:
   postgres_data:
-    driver: local
-
-networks:
-  ecommerce-network:
-    driver: bridge

@@ -1,13 +1,28 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useMutation, useQuery } from "@apollo/client/react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Textarea } from "../components/ui/textarea";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/card";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "../components/ui/tabs";
 import { Alert, AlertDescription } from "../components/ui/alert";
 import { CheckCircle, AlertCircle, Save } from "lucide-react";
+import { UPDATE_STORE } from "../lib/graphql/mutations";
+import { GET_MY_STORES } from "../lib/graphql/mutations";
+import { Store, UpdateStoreInput } from "../lib/graphql/types";
 
 interface StoreSettings {
   name: string;
@@ -23,7 +38,7 @@ interface StoreSettings {
 export function StoreSettingsPage() {
   const { storeId } = useParams<{ storeId: string }>();
   const navigate = useNavigate();
-  
+
   const [settings, setSettings] = useState<StoreSettings>({
     name: "",
     description: "",
@@ -34,48 +49,71 @@ export function StoreSettingsPage() {
       timezone: "UTC",
     },
   });
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  // GraphQL queries and mutations
+  const { data: storesData, loading: storesLoading } = useQuery<{
+    myStores: Store[];
+  }>(GET_MY_STORES);
+  const [updateStore, { loading: updateLoading }] = useMutation<{
+    updateStore: Store;
+  }>(UPDATE_STORE);
+
+  const currentStore = storesData?.myStores?.find(
+    (store) => store.id === storeId
+  );
+  const isLoading = storesLoading || updateLoading;
+
   useEffect(() => {
-    // TODO: Implement store fetching with GraphQL
-    // For now, using mock data
-    setSettings({
-      name: "Demo Store",
-      description: "A demo e-commerce store",
-      customDomain: "demo.example.com",
-      settings: {
-        theme: "modern",
-        currency: "USD",
-        timezone: "UTC",
-      },
-    });
-  }, [storeId]);
+    if (currentStore) {
+      setSettings({
+        name: currentStore.name,
+        description: currentStore.description || "",
+        customDomain: currentStore.customDomain || "",
+        settings: JSON.parse(currentStore.settings || "{}"),
+      });
+    }
+  }, [currentStore]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setSuccess("");
 
-    setIsLoading(true);
+    if (!storeId) {
+      setError("Store ID is required");
+      return;
+    }
+
     try {
-      // TODO: Implement store update with GraphQL
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const input: UpdateStoreInput = {
+        id: storeId,
+        name: settings.name,
+        settings: JSON.stringify(settings.settings),
+        customDomain: settings.customDomain || null,
+      };
+
+      await updateStore({ variables: { input } });
       setSuccess("Store settings updated successfully!");
-    } catch (err) {
-      setError("Failed to update store settings. Please try again.");
-    } finally {
-      setIsLoading(false);
+    } catch (err: any) {
+      console.error("Store update error:", err);
+      setError(
+        err.message || "Failed to update store settings. Please try again."
+      );
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
-    
+
     if (name.startsWith("settings.")) {
       const settingKey = name.split(".")[1];
-      setSettings(prev => ({
+      setSettings((prev) => ({
         ...prev,
         settings: {
           ...prev.settings,
@@ -83,7 +121,7 @@ export function StoreSettingsPage() {
         },
       }));
     } else {
-      setSettings(prev => ({ ...prev, [name]: value }));
+      setSettings((prev) => ({ ...prev, [name]: value }));
     }
   };
 
@@ -124,7 +162,9 @@ export function StoreSettingsPage() {
                   {success && (
                     <Alert className="border-green-200 bg-green-50">
                       <CheckCircle className="h-4 w-4 text-green-600" />
-                      <AlertDescription className="text-green-800">{success}</AlertDescription>
+                      <AlertDescription className="text-green-800">
+                        {success}
+                      </AlertDescription>
                     </Alert>
                   )}
 
@@ -181,7 +221,9 @@ export function StoreSettingsPage() {
                   </div>
 
                   <div className="p-4 bg-blue-50 rounded-lg">
-                    <h4 className="font-medium text-blue-900 mb-2">DNS Configuration</h4>
+                    <h4 className="font-medium text-blue-900 mb-2">
+                      DNS Configuration
+                    </h4>
                     <p className="text-sm text-blue-800 mb-2">
                       To verify your domain, add the following DNS record:
                     </p>

@@ -27,6 +27,8 @@ model Store {
   name                 String
   slug                 String   @unique
   subdomain            String   @unique
+  description          String?
+  isActive             Boolean  @default(true)
   customDomain         String?  @unique
   customDomainVerified Boolean  @default(false)
   ownerId              String

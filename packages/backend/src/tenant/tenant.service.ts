@@ -72,6 +72,29 @@ export class TenantService {
     return null;
   }
 
+  async getDefaultStore(): Promise<TenantContext | null> {
+    // Get the first store from the database for development
+    const store = await this.prisma.store.findFirst({
+      select: {
+        id: true,
+        slug: true,
+        subdomain: true,
+        customDomain: true,
+      },
+    });
+
+    if (store) {
+      return {
+        storeId: store.id,
+        storeSlug: store.slug,
+        subdomain: store.subdomain,
+        customDomain: store.customDomain || undefined,
+      };
+    }
+
+    return null;
+  }
+
   private isReservedSubdomain(subdomain: string): boolean {
     const reserved = [
       'www',

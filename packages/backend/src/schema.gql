@@ -11,6 +11,14 @@ type About {
   vision: String!
 }
 
+type ApiStatus {
+  environment: String!
+  message: String!
+  status: String!
+  timestamp: String!
+  version: String!
+}
+
 type AuthPayload {
   access_token: String!
   user: User!
@@ -112,6 +120,7 @@ input CreateReviewInput {
 }
 
 input CreateStoreInput {
+  description: String
   name: String!
   settings: String
   slug: String!
@@ -269,6 +278,7 @@ type Query {
   about: About!
   aboutById(id: String!): About!
   activePromotions: [Promotion!]!
+  apiStatus: ApiStatus!
   blogCategories: [String!]!
   blogPost(id: String!): BlogPost!
   blogPosts(filter: BlogFilterInput): [BlogPost!]!
@@ -279,6 +289,7 @@ type Query {
   expiredPromotions: [Promotion!]!
   faq(id: String!): FAQ!
   faqs: [FAQ!]!
+  featuredReviews(limit: Int! = 3): [Review!]!
   health: String!
   hello: String!
   me: User!
@@ -329,7 +340,9 @@ type Store {
   createdAt: DateTime!
   customDomain: String
   customDomainVerified: Boolean!
+  description: String
   id: ID!
+  isActive: Boolean!
   name: String!
   ownerId: String!
   settings: String!

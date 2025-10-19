@@ -13,6 +13,14 @@ import { Prisma, OrderStatus } from '@prisma/client';
 export class OrdersService {
   constructor(private prisma: PrismaService) {}
 
+  async getFirstStore() {
+    const store = await this.prisma.store.findFirst();
+    if (!store) {
+      throw new Error('No store found in database');
+    }
+    return store;
+  }
+
   async createOrder(storeId: string, input: CreateOrderInput) {
     // Validate that all products exist and belong to the store
     const productIds = input.items.map((item) => item.productId);

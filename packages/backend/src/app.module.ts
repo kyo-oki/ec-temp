@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { join } from 'path';
+import { PassportModule } from '@nestjs/passport';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AppResolver } from './app.resolver';
@@ -19,16 +20,20 @@ import { ContactModule } from './contact/contact.module';
 import { PromotionsModule } from './promotions/promotions.module';
 import { UploadModule } from './upload/upload.module';
 import { GraphQLExceptionFilter } from './common/filters/graphql-exception.filter';
+import { TenantInterceptor } from './tenant/tenant.interceptor';
 
 @Module({
   imports: [
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
       playground: process.env.GRAPHQL_PLAYGROUND !== 'false',
       introspection: process.env.GRAPHQL_INTROSPECTION !== 'false',
-      context: ({ req }: { req: Request }) => ({ req }),
+      context: ({ req, res }: { req?: unknown; res?: unknown }) => {
+        return { req, res };
+      },
       formatError: (error) => {
         return {
           message: error.message,
@@ -58,6 +63,10 @@ import { GraphQLExceptionFilter } from './common/filters/graphql-exception.filte
     {
       provide: APP_FILTER,
       useClass: GraphQLExceptionFilter,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: TenantInterceptor,
     },
   ],
 })

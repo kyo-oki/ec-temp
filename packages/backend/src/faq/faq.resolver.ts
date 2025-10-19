@@ -1,7 +1,7 @@
 import { Resolver, Mutation, Query, Args } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { FAQService } from './faq.service';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+// import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { TenantGuard } from '../tenant/guards/tenant.guard';
 import { CurrentTenant } from '../tenant/decorators/current-tenant.decorator';
 import { CreateFAQInput } from './dto/create-faq.input';
@@ -14,7 +14,7 @@ export class FAQResolver {
   constructor(private faqService: FAQService) {}
 
   @Mutation(() => FAQ)
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @UseGuards(TenantGuard)
   async createFAQ(
     @Args('input') input: CreateFAQInput,
     @CurrentTenant() tenant: TenantContext,
@@ -23,7 +23,7 @@ export class FAQResolver {
   }
 
   @Mutation(() => FAQ)
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @UseGuards(TenantGuard)
   async updateFAQ(
     @Args('id') id: string,
     @Args('input') input: UpdateFAQInput,
@@ -33,7 +33,7 @@ export class FAQResolver {
   }
 
   @Mutation(() => FAQ)
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @UseGuards(TenantGuard)
   async deleteFAQ(
     @Args('id') id: string,
     @CurrentTenant() tenant: TenantContext,
@@ -56,7 +56,7 @@ export class FAQResolver {
   }
 
   @Mutation(() => [FAQ])
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @UseGuards(TenantGuard)
   async reorderFAQs(
     @Args('faqIds', { type: () => [String] }) faqIds: string[],
     @CurrentTenant() tenant: TenantContext,

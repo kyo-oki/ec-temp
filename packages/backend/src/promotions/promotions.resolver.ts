@@ -1,7 +1,7 @@
 import { Resolver, Mutation, Query, Args } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { PromotionsService } from './promotions.service';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+// import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { TenantGuard } from '../tenant/guards/tenant.guard';
 import { CurrentTenant } from '../tenant/decorators/current-tenant.decorator';
 import { CreatePromotionInput } from './dto/create-promotion.input';
@@ -15,7 +15,7 @@ export class PromotionsResolver {
   constructor(private promotionsService: PromotionsService) {}
 
   @Mutation(() => Promotion)
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @UseGuards(TenantGuard)
   async createPromotion(
     @Args('input') input: CreatePromotionInput,
     @CurrentTenant() tenant: TenantContext,
@@ -24,7 +24,7 @@ export class PromotionsResolver {
   }
 
   @Mutation(() => Promotion)
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @UseGuards(TenantGuard)
   async updatePromotion(
     @Args('id') id: string,
     @Args('input') input: UpdatePromotionInput,
@@ -34,7 +34,7 @@ export class PromotionsResolver {
   }
 
   @Mutation(() => Promotion)
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @UseGuards(TenantGuard)
   async deletePromotion(
     @Args('id') id: string,
     @CurrentTenant() tenant: TenantContext,
@@ -68,7 +68,7 @@ export class PromotionsResolver {
   }
 
   @Query(() => [Promotion])
-  @UseGuards(JwtAuthGuard, TenantGuard)
+  @UseGuards(TenantGuard)
   async expiredPromotions(
     @CurrentTenant() tenant: TenantContext,
   ): Promise<Promotion[]> {

@@ -1,9 +1,11 @@
 import { InputType, Field, ID } from '@nestjs/graphql';
-import { IsString, IsOptional, IsBoolean } from 'class-validator';
+import { IsString, IsOptional, IsBoolean, IsNotEmpty } from 'class-validator';
 
 @InputType()
 export class UpdateStoreInput {
   @Field(() => ID)
+  @IsString()
+  @IsNotEmpty()
   id: string;
 
   @Field({ nullable: true })

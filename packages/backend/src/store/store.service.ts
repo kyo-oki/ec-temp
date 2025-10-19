@@ -11,12 +11,21 @@ import { Prisma } from '@prisma/client';
 export class StoreService {
   constructor(private prisma: PrismaService) {}
 
+  async getFirstUser() {
+    const user = await this.prisma.user.findFirst();
+    if (!user) {
+      throw new Error('No users found in database');
+    }
+    return user;
+  }
+
   async createStore(
     ownerId: string,
     input: {
       name: string;
       slug: string;
       subdomain: string;
+      description?: string;
       settings?: string;
     },
   ) {
@@ -44,6 +53,7 @@ export class StoreService {
         name: input.name,
         slug: input.slug,
         subdomain: input.subdomain,
+        description: input.description,
         ownerId,
         settings: input.settings
           ? (JSON.parse(input.settings) as Prisma.InputJsonValue)
@@ -125,7 +135,11 @@ export class StoreService {
       orderBy: { createdAt: 'desc' },
     });
 
-    return stores;
+    // Convert JSON settings to string for GraphQL
+    return stores.map((store) => ({
+      ...store,
+      settings: JSON.stringify(store.settings),
+    }));
   }
 
   async getStoreBySlug(slug: string) {

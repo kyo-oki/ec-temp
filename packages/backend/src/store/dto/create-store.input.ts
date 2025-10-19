@@ -1,5 +1,11 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { IsString, IsNotEmpty, Matches, Length } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  Matches,
+  Length,
+  IsOptional,
+} from 'class-validator';
 
 @InputType()
 export class CreateStoreInput {
@@ -29,5 +35,10 @@ export class CreateStoreInput {
 
   @Field({ nullable: true })
   @IsString()
+  description?: string;
+
+  @Field({ nullable: true })
+  @IsString()
+  @IsOptional()
   settings?: string; // JSON string
 }

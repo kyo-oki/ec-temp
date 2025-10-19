@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 // Product queries
 export const GET_PRODUCTS = gql`
@@ -62,6 +62,22 @@ export const GET_PRODUCT_REVIEWS = gql`
       comment
       isApproved
       createdAt
+    }
+  }
+`;
+
+export const GET_FEATURED_REVIEWS = gql`
+  query FeaturedReviews($limit: Int = 3) {
+    featuredReviews(limit: $limit) {
+      id
+      rating
+      comment
+      customerName
+      createdAt
+      product {
+        id
+        name
+      }
     }
   }
 `;
@@ -186,6 +202,204 @@ export const GET_ME = gql`
       email
       name
       createdAt
+    }
+  }
+`;
+
+export const GET_CONTACTS = gql`
+  query GetContacts($filter: ContactFilterInput, $pagination: PaginationInput) {
+    contacts(filter: $filter, pagination: $pagination) {
+      items {
+        id
+        name
+        email
+        subject
+        message
+        isRead
+        createdAt
+      }
+      total
+      page
+      pageSize
+    }
+  }
+`;
+
+export const GET_CONTACT = gql`
+  query GetContact($id: String!) {
+    contact(id: $id) {
+      id
+      name
+      email
+      subject
+      message
+      isRead
+      createdAt
+    }
+  }
+`;
+
+export const GET_ALL_BLOG_POSTS = gql`
+  query GetAllBlogPosts(
+    $filter: BlogFilterInput
+    $pagination: PaginationInput
+  ) {
+    blogPosts(filter: $filter, pagination: $pagination) {
+      items {
+        id
+        title
+        description
+        content
+        category
+        thumbnailUrl
+        isPublished
+        createdAt
+        updatedAt
+      }
+      total
+      page
+      pageSize
+    }
+  }
+`;
+
+// Additional admin queries
+export const GET_FAQ = gql`
+  query GetFaq($id: String!) {
+    faq(id: $id) {
+      id
+      question
+      answer
+      displayOrder
+      createdAt
+    }
+  }
+`;
+
+export const GET_PROMOTION = gql`
+  query GetPromotion($id: String!) {
+    promotion(id: $id) {
+      id
+      title
+      description
+      discountType
+      discountValue
+      startDate
+      endDate
+      isActive
+      createdAt
+    }
+  }
+`;
+
+// Admin queries
+export const GET_ORDERS = gql`
+  query GetOrders(
+    $filter: OrderFilterInput
+    $pagination: PaginationInput
+    $sortBy: String
+    $sortOrder: String
+  ) {
+    orders(
+      filter: $filter
+      pagination: $pagination
+      sortBy: $sortBy
+      sortOrder: $sortOrder
+    ) {
+      items {
+        id
+        orderNumber
+        customerName
+        customerEmail
+        customerPhone
+        shippingAddress
+        billingAddress
+        items {
+          id
+          productId
+          productName
+          quantity
+          price
+        }
+        totalAmount
+        status
+        paymentStatus
+        shippingStatus
+        notes
+        createdAt
+        updatedAt
+      }
+      total
+      page
+      pageSize
+    }
+  }
+`;
+
+export const GET_ORDER = gql`
+  query GetOrder($id: String!) {
+    order(id: $id) {
+      id
+      orderNumber
+      customerName
+      customerEmail
+      customerPhone
+      shippingAddress
+      billingAddress
+      items {
+        id
+        productId
+        productName
+        quantity
+        price
+      }
+      totalAmount
+      status
+      paymentStatus
+      shippingStatus
+      notes
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+// Dashboard queries
+export const GET_DASHBOARD_STATS = gql`
+  query GetDashboardStats {
+    products {
+      id
+      stockQuantity
+      isActive
+    }
+    orders {
+      id
+      totalAmount
+      status
+      createdAt
+    }
+  }
+`;
+
+export const GET_RECENT_ORDERS = gql`
+  query GetRecentOrders($limit: Int = 5) {
+    orders(limit: $limit) {
+      id
+      orderNumber
+      customerName
+      totalAmount
+      status
+      createdAt
+    }
+  }
+`;
+
+export const GET_LOW_STOCK_PRODUCTS = gql`
+  query GetLowStockProducts($limit: Int = 5) {
+    products(filter: { limit: $limit }) {
+      id
+      name
+      stockQuantity
     }
   }
 `;

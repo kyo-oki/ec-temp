@@ -11,6 +11,61 @@ export interface AuthPayload {
   user: User;
 }
 
+// Store types
+export interface Store {
+  id: string;
+  name: string;
+  slug: string;
+  subdomain: string;
+  description?: string;
+  isActive: boolean;
+  customDomain?: string;
+  customDomainVerified: boolean;
+  ownerId: string;
+  settings: string; // JSON string
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateStoreInput {
+  name: string;
+  slug: string;
+  subdomain: string;
+  description: string;
+}
+
+export interface UpdateStoreInput {
+  id: string;
+  name?: string;
+  settings?: string;
+  customDomain?: string;
+  customDomainVerified?: boolean;
+}
+
+export interface SlugAvailability {
+  available: boolean;
+  slug: string;
+}
+
+export interface SubdomainAvailability {
+  available: boolean;
+  subdomain: string;
+}
+
+// Dashboard types
+export interface DashboardStats {
+  products: Product[];
+  orders: Order[];
+}
+
+export interface RecentOrders {
+  orders: Order[];
+}
+
+export interface LowStockProducts {
+  products: Product[];
+}
+
 // Product types
 export interface Product {
   id: string;
@@ -45,7 +100,7 @@ export interface ProductFilterInput {
   availableColors?: string[];
   isActive?: boolean;
   sortBy?: string;
-  sortOrder?: 'asc' | 'desc';
+  sortOrder?: "asc" | "desc";
   limit?: number;
   offset?: number;
 }
@@ -68,7 +123,7 @@ export interface BlogFilterInput {
   category?: string;
   isPublished?: boolean;
   sortBy?: string;
-  sortOrder?: 'asc' | 'desc';
+  sortOrder?: "asc" | "desc";
   limit?: number;
   offset?: number;
 }
@@ -82,12 +137,22 @@ export interface FAQ {
   createdAt: string;
 }
 
+// Alias for backward compatibility
+export type Faq = FAQ;
+
 // About types
 export interface About {
   id: string;
+  title: string;
+  description: string;
+  content: string;
   philosophy: string;
   vision: string;
   offerings: string; // JSON string
+  heroImageUrl?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  createdAt: string;
   updatedAt: string;
 }
 
@@ -109,19 +174,15 @@ export interface PromotionFilterInput {
   search?: string;
 }
 
-// Store types
-export interface Store {
-  id: string;
-  name: string;
-  slug: string;
-  subdomain: string;
-  settings: any; // JSON object
-  customDomain?: string;
-  customDomainVerified?: boolean;
-  createdAt: string;
+// Order types
+export enum OrderStatus {
+  PENDING = "PENDING",
+  PROCESSING = "PROCESSING",
+  SHIPPED = "SHIPPED",
+  DELIVERED = "DELIVERED",
+  CANCELLED = "CANCELLED",
 }
 
-// Order types
 export interface OrderItem {
   id: string;
   productId: string;
@@ -223,4 +284,126 @@ export interface UploadResult {
   originalName: string;
   mimetype: string;
   size: number;
+}
+
+// Admin-specific types
+export interface OrderFilterInput {
+  search?: string;
+  status?: OrderStatus;
+  dateFrom?: string;
+  dateTo?: string;
+}
+
+export interface ContactFilterInput {
+  search?: string;
+  isRead?: boolean;
+  dateFrom?: string;
+  dateTo?: string;
+}
+
+export interface BlogFilterInput {
+  search?: string;
+  category?: string;
+  isPublished?: boolean;
+  dateFrom?: string;
+  dateTo?: string;
+}
+
+export interface PromotionFilterInput {
+  search?: string;
+  isActive?: boolean;
+  dateFrom?: string;
+  dateTo?: string;
+}
+
+export interface PaginationInput {
+  page: number;
+  pageSize: number;
+}
+
+export interface PaginatedResponse<T> {
+  items: T[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
+
+export interface CreateProductInput {
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  images: string[];
+  availableSizes?: string[];
+  availableColors?: string[];
+  stockQuantity: number;
+  isActive: boolean;
+}
+
+export interface UpdateProductInput {
+  name?: string;
+  description?: string;
+  price?: number;
+  category?: string;
+  images?: string[];
+  availableSizes?: string[];
+  availableColors?: string[];
+  stockQuantity?: number;
+  isActive?: boolean;
+}
+
+export interface BulkUpdateProductInput {
+  isActive?: boolean;
+}
+
+export interface CreateBlogPostInput {
+  title: string;
+  description: string;
+  content: string;
+  category: string;
+  thumbnailUrl?: string;
+  isPublished: boolean;
+}
+
+export interface UpdateBlogPostInput {
+  title?: string;
+  description?: string;
+  content?: string;
+  category?: string;
+  thumbnailUrl?: string;
+  isPublished?: boolean;
+}
+
+export interface CreateFaqInput {
+  question: string;
+  answer: string;
+  displayOrder?: number;
+}
+
+export interface UpdateFaqInput {
+  question?: string;
+  answer?: string;
+  displayOrder?: number;
+}
+
+export interface CreatePromotionInput {
+  title: string;
+  description: string;
+  discountPercentage: number;
+  startDate: string;
+  endDate: string;
+  isActive: boolean;
+}
+
+export interface UpdatePromotionInput {
+  title?: string;
+  description?: string;
+  discountPercentage?: number;
+  startDate?: string;
+  endDate?: string;
+  isActive?: boolean;
+}
+
+export interface UpdateContactInput {
+  isRead?: boolean;
 }

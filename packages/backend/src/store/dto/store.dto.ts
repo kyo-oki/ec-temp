@@ -15,6 +15,12 @@ export class Store {
   subdomain: string;
 
   @Field({ nullable: true })
+  description?: string;
+
+  @Field()
+  isActive: boolean;
+
+  @Field({ nullable: true })
   customDomain?: string;
 
   @Field()
