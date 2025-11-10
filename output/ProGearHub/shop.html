@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Shop All Products · ProGear Hub</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <header class="site-header" role="banner">
+      <div class="site-header__container">
+        <!-- Brand -->
+        <a href="./index.html" class="brand" aria-label="ProGear Hub">
+          <span class="brand__mark" aria-hidden="true">
+            <svg
+              class="brand__svg"
+              viewBox="0 0 100 100"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                d="M50 5L85 20V45C85 65 75 80 50 95C25 80 15 65 15 45V20L50 5Z"
+                fill="#1E40AF"
+              />
+              <path
+                d="M50 15L75 25V45C75 60 68 72 50 85C32 72 25 60 25 45V25L50 15Z"
+                fill="#3B82F6"
+              />
+              <circle cx="50" cy="50" r="15" fill="white" />
+              <path
+                d="M35 50C35 41.7 41.7 35 50 35M65 50C65 58.3 58.3 65 50 65"
+                stroke="#1E40AF"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M50 35V65M40 42L60 58M40 58L60 42"
+                stroke="#1E40AF"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+            </svg>
+          </span>
+          <span class="brand__text">
+            <span class="brand__line brand__line--primary">ProGear</span>
+            <span class="brand__line brand__line--accent">Hub</span>
+          </span>
+        </a>
+
+        <!-- Primary Nav -->
+        <nav class="header-nav" aria-label="Primary">
+          <ul class="header-nav__list">
+            <li class="header-nav__link header-nav__link--button">
+              <a
+                class="header-nav__link header-nav__link--active"
+                href="./shop.html"
+              >
+                Products
+              </a>
+            </li>
+            <li class="header-nav__link header-nav__link--button">
+              <a class="header-nav__link" href="./orders.html">Orders</a>
+            </li>
+            <li class="header-nav__link header-nav__link--button">
+              <a class="header-nav__link" href="./about.html">About Us</a>
+            </li>
+            <li class="header-nav__link header-nav__link--button">
+              <a class="header-nav__link" href="./blog.html">Blog</a>
+            </li>
+            <li class="header-nav__link header-nav__link--button">
+              <a class="header-nav__link" href="./contact.html">Contact</a>
+            </li>
+            <li class="header-nav__link header-nav__link--button">
+              <a class="header-nav__link" href="./faq.html">FAQ</a>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Actions -->
+        <div class="header-actions">
+          <button class="header-actions__icon-btn" aria-label="Open cart">
+            <svg
+              class="header-actions__icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <circle
+                cx="8"
+                cy="21"
+                r="1"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <circle
+                cx="19"
+                cy="21"
+                r="1"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <path
+                d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <a href="/signin" class="btn btn--outline">Sign in</a>
+          <a href="/register" class="btn btn--primary">Register</a>
+        </div>
+
+        <svg
+          class="header-toggle"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-menu-icon lucide-menu"
+        >
+          <path d="M4 5h16" />
+          <path d="M4 12h16" />
+          <path d="M4 19h16" />
+        </svg>
+      </div>
+    </header>
+
+    <main id="main" class="container" role="main">
+      <section class="products" aria-labelledby="shop-title">
+        <div class="products__head">
+          <h1 id="shop-title" class="products__title">Shop All Products</h1>
+          <p class="products__sub">
+            Your trusted source for premium sports equipment and gear.
+          </p>
+        </div>
+
+        <!-- ===== 2-Column Layout: Sidebar (filters) + Main (search + products) ===== -->
+        <div class="shop-layout" role="region" aria-label="Shop layout">
+          <!-- Sidebar: Filters -->
+          <aside class="shop-sidebar" aria-labelledby="filters-title">
+            <div class="shop-sidebar__inner">
+              <h3 id="filters-title" class="shop-sidebar__title">Filters</h3>
+
+              <!-- Category -->
+              <div
+                class="filter-group"
+                role="group"
+                aria-labelledby="filter-cat"
+              >
+                <h4 id="filter-cat" class="filter-group__title">Category</h4>
+                <ul class="filter-list">
+                  <li class="filter-list__item">
+                    <input
+                      class="filter-check"
+                      type="checkbox"
+                      id="filter-soccer"
+                    />
+                    <label class="filter-label" for="filter-soccer"
+                      >Soccer</label
+                    >
+                  </li>
+                  <li class="filter-list__item">
+                    <input
+                      class="filter-check"
+                      type="checkbox"
+                      id="filter-cricket"
+                    />
+                    <label class="filter-label" for="filter-cricket"
+                      >Cricket</label
+                    >
+                  </li>
+                  <li class="filter-list__item">
+                    <input
+                      class="filter-check"
+                      type="checkbox"
+                      id="filter-tennis"
+                    />
+                    <label class="filter-label" for="filter-tennis"
+                      >Tennis</label
+                    >
+                  </li>
+                  <li class="filter-list__item">
+                    <input
+                      class="filter-check"
+                      type="checkbox"
+                      id="filter-swimming"
+                    />
+                    <label class="filter-label" for="filter-swimming"
+                      >Swimming</label
+                    >
+                  </li>
+                  <li class="filter-list__item">
+                    <input
+                      class="filter-check"
+                      type="checkbox"
+                      id="filter-apparel"
+                    />
+                    <label class="filter-label" for="filter-apparel"
+                      >Apparel</label
+                    >
+                  </li>
+                  <li class="filter-list__item">
+                    <input
+                      class="filter-check"
+                      type="checkbox"
+                      id="filter-gear"
+                    />
+                    <label class="filter-label" for="filter-gear">Gear</label>
+                  </li>
+                  <li class="filter-list__item">
+                    <input
+                      class="filter-check"
+                      type="checkbox"
+                      id="filter-accessories"
+                    />
+                    <label class="filter-label" for="filter-accessories"
+                      >Accessories</label
+                    >
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Price -->
+              <div
+                class="filter-group"
+                role="group"
+                aria-labelledby="filter-price"
+              >
+                <h4 id="filter-price" class="filter-group__title">
+                  Price Range
+                </h4>
+                <div class="price-range">
+                  <input
+                    type="range"
+                    min="0"
+                    max="200"
+                    value="100"
+                    aria-label="Maximum price"
+                  />
+                  <div class="price-range__labels">
+                    <span>$0</span>
+                    <span>$100</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <!-- Main: Search + Products -->
+          <div class="shop-main">
+            <div class="search-bar">
+              <label class="sr-only" for="product-search"
+                >Search products</label
+              >
+              <input
+                id="product-search"
+                type="text"
+                class="search-input"
+                placeholder="Search"
+              />
+              <span class="search-icon" aria-hidden="true">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <path d="m21 21-4.3-4.3"></path>
+                </svg>
+              </span>
+            </div>
+
+            <!-- ===== Products Grid (unchanged cards) ===== -->
+            <div class="products__grid">
+              <a class="card-product" href="./product.html">
+                <div class="card-product__media">
+                  <img src="./images/ball.png" alt="Professional Soccer Ball" />
+                  <div class="card-product__overlay">
+                    <span class="btn btn--white">Add to Cart</span>
+                  </div>
+                </div>
+                <div class="card-product__body">
+                  <span class="card-product__tag">Soccer</span>
+                  <h3 class="card-product__title">Professional Soccer Ball</h3>
+                  <p class="card-product__desc">
+                    Premium match quality ball with superior grip and durability
+                    for all playing conditions.
+                  </p>
+                  <div class="card-product__foot">
+                    <span class="card-product__price">$49.99</span>
+                    <button
+                      class="btn btn--primary"
+                      aria-label="Add Professional Soccer Ball to cart"
+                    >
+                      Buy
+                    </button>
+                  </div>
+                </div>
+              </a>
+              <a class="card-product" href="./product.html">
+                <div class="card-product__media">
+                  <img src="./images/ball.png" alt="Professional Soccer Ball" />
+                  <div class="card-product__overlay">
+                    <span class="btn btn--white">Add to Cart</span>
+                  </div>
+                </div>
+                <div class="card-product__body">
+                  <span class="card-product__tag">Soccer</span>
+                  <h3 class="card-product__title">Professional Soccer Ball</h3>
+                  <p class="card-product__desc">
+                    Premium match quality ball with superior grip and durability
+                    for all playing conditions.
+                  </p>
+                  <div class="card-product__foot">
+                    <span class="card-product__price">$49.99</span>
+                    <button
+                      class="btn btn--primary"
+                      aria-label="Add Professional Soccer Ball to cart"
+                    >
+                      Buy
+                    </button>
+                  </div>
+                </div>
+              </a>
+              <a class="card-product" href="./product.html">
+                <div class="card-product__media">
+                  <img src="./images/ball.png" alt="Professional Soccer Ball" />
+                  <div class="card-product__overlay">
+                    <span class="btn btn--white">Add to Cart</span>
+                  </div>
+                </div>
+                <div class="card-product__body">
+                  <span class="card-product__tag">Soccer</span>
+                  <h3 class="card-product__title">Professional Soccer Ball</h3>
+                  <p class="card-product__desc">
+                    Premium match quality ball with superior grip and durability
+                    for all playing conditions.
+                  </p>
+                  <div class="card-product__foot">
+                    <span class="card-product__price">$49.99</span>
+                    <button
+                      class="btn btn--primary"
+                      aria-label="Add Professional Soccer Ball to cart"
+                    >
+                      Buy
+                    </button>
+                  </div>
+                </div>
+              </a>
+              <a class="card-product" href="./product.html">
+                <div class="card-product__media">
+                  <img src="./images/ball.png" alt="Professional Soccer Ball" />
+                  <div class="card-product__overlay">
+                    <span class="btn btn--white">Add to Cart</span>
+                  </div>
+                </div>
+                <div class="card-product__body">
+                  <span class="card-product__tag">Soccer</span>
+                  <h3 class="card-product__title">Professional Soccer Ball</h3>
+                  <p class="card-product__desc">
+                    Premium match quality ball with superior grip and durability
+                    for all playing conditions.
+                  </p>
+                  <div class="card-product__foot">
+                    <span class="card-product__price">$49.99</span>
+                    <button
+                      class="btn btn--primary"
+                      aria-label="Add Professional Soccer Ball to cart"
+                    >
+                      Buy
+                    </button>
+                  </div>
+                </div>
+              </a>
+              <a class="card-product" href="./product.html">
+                <div class="card-product__media">
+                  <img src="./images/ball.png" alt="Professional Soccer Ball" />
+                  <div class="card-product__overlay">
+                    <span class="btn btn--white">Add to Cart</span>
+                  </div>
+                </div>
+                <div class="card-product__body">
+                  <span class="card-product__tag">Soccer</span>
+                  <h3 class="card-product__title">Professional Soccer Ball</h3>
+                  <p class="card-product__desc">
+                    Premium match quality ball with superior grip and durability
+                    for all playing conditions.
+                  </p>
+                  <div class="card-product__foot">
+                    <span class="card-product__price">$49.99</span>
+                    <button
+                      class="btn btn--primary"
+                      aria-label="Add Professional Soccer Ball to cart"
+                    >
+                      Buy
+                    </button>
+                  </div>
+                </div>
+              </a>
+              <a class="card-product" href="./product.html">
+                <div class="card-product__media">
+                  <img src="./images/ball.png" alt="Professional Soccer Ball" />
+                  <div class="card-product__overlay">
+                    <span class="btn btn--white">Add to Cart</span>
+                  </div>
+                </div>
+                <div class="card-product__body">
+                  <span class="card-product__tag">Soccer</span>
+                  <h3 class="card-product__title">Professional Soccer Ball</h3>
+                  <p class="card-product__desc">
+                    Premium match quality ball with superior grip and durability
+                    for all playing conditions.
+                  </p>
+                  <div class="card-product__foot">
+                    <span class="card-product__price">$49.99</span>
+                    <button
+                      class="btn btn--primary"
+                      aria-label="Add Professional Soccer Ball to cart"
+                    >
+                      Buy
+                    </button>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ===== Footer ===== -->
+    <footer class="site-footer" role="contentinfo">
+      <div class="container footer-grid">
+        <div>
+          <div class="footer-brand">
+            <svg
+              class="footer-brand__svg"
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                d="M50 5L85 20V45C85 65 75 80 50 95C25 80 15 65 15 45V20L50 5Z"
+                fill="#1E40AF"
+              />
+              <path
+                d="M50 15L75 25V45C75 60 68 72 50 85C32 72 25 60 25 45V25L50 15Z"
+                fill="#3B82F6"
+              />
+              <circle cx="50" cy="50" r="15" fill="white" />
+            </svg>
+            <span class="footer-brand__text">
+              <span class="footer-brand__line--primary">ProGear</span>
+              <span class="footer-brand__line--accent">Hub</span>
+            </span>
+          </div>
+          <p class="footer-desc">
+            Your trusted source for premium sports equipment and gear.
+          </p>
+        </div>
+        <div>
+          <h4>Products</h4>
+          <ul>
+            <li><a href="./shop.html">Soccer</a></li>
+            <li><a href="./shop.html">Cricket</a></li>
+            <li><a href="./shop.html">Tennis</a></li>
+            <li><a href="./shop.html">Swimming</a></li>
+            <li><a href="./shop.html">All Products</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="./about.html">About Us</a></li>
+            <li><a href="./blog.html">Blog & Resources</a></li>
+            <li><a href="./faq.html">FAQ</a></li>
+            <li><a href="./contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="./privacy.html">Privacy Policy</a></li>
+            <li><a href="./terms.html">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 ProGear Hub. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

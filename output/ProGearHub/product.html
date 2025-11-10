@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ProGear Hub – Product</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header" role="banner">
+      <div class="site-header__container">
+        <!-- Brand -->
+        <a href="./index.html" class="brand" aria-label="ProGear Hub">
+          <span class="brand__mark" aria-hidden="true">
+            <svg
+              class="brand__svg"
+              viewBox="0 0 100 100"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                d="M50 5L85 20V45C85 65 75 80 50 95C25 80 15 65 15 45V20L50 5Z"
+                fill="#1E40AF"
+              />
+              <path
+                d="M50 15L75 25V45C75 60 68 72 50 85C32 72 25 60 25 45V25L50 15Z"
+                fill="#3B82F6"
+              />
+              <circle cx="50" cy="50" r="15" fill="white" />
+              <path
+                d="M35 50C35 41.7 41.7 35 50 35M65 50C65 58.3 58.3 65 50 65"
+                stroke="#1E40AF"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M50 35V65M40 42L60 58M40 58L60 42"
+                stroke="#1E40AF"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+            </svg>
+          </span>
+          <span class="brand__text">
+            <span class="brand__line brand__line--primary">ProGear</span>
+            <span class="brand__line brand__line--accent">Hub</span>
+          </span>
+        </a>
+
+        <!-- Primary Nav -->
+        <nav class="header-nav" aria-label="Primary">
+          <ul class="header-nav__list">
+            <li class="header-nav__link header-nav__link--button">
+              <a
+                class="header-nav__link header-nav__link--active"
+                href="./shop.html"
+              >
+                Products
+              </a>
+            </li>
+            <li class="header-nav__link header-nav__link--button">
+              <a class="header-nav__link" href="./orders.html">Orders</a>
+            </li>
+            <li class="header-nav__link header-nav__link--button">
+              <a class="header-nav__link" href="./about.html">About Us</a>
+            </li>
+            <li class="header-nav__link header-nav__link--button">
+              <a class="header-nav__link" href="./blog.html">Blog</a>
+            </li>
+            <li class="header-nav__link header-nav__link--button">
+              <a class="header-nav__link" href="./contact.html">Contact</a>
+            </li>
+            <li class="header-nav__link header-nav__link--button">
+              <a class="header-nav__link" href="./faq.html">FAQ</a>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- Actions -->
+        <div class="header-actions">
+          <button class="header-actions__icon-btn" aria-label="Open cart">
+            <svg
+              class="header-actions__icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <circle
+                cx="8"
+                cy="21"
+                r="1"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <circle
+                cx="19"
+                cy="21"
+                r="1"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <path
+                d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <a href="/signin" class="btn btn--outline">Sign in</a>
+          <a href="/register" class="btn btn--primary">Register</a>
+        </div>
+
+        <!-- Mobile toggle -->
+        <svg
+          class="header-toggle"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-menu-icon lucide-menu"
+        >
+          <path d="M4 5h16" />
+          <path d="M4 12h16" />
+          <path d="M4 19h16" />
+        </svg>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="product" aria-labelledby="product-title">
+        <div class="product__grid">
+          <!-- Gallery -->
+          <div class="product-gallery">
+            <input
+              class="product-gallery__radio"
+              type="radio"
+              name="pg"
+              id="pg-1"
+              checked
+            />
+            <input
+              class="product-gallery__radio"
+              type="radio"
+              name="pg"
+              id="pg-2"
+            />
+            <input
+              class="product-gallery__radio"
+              type="radio"
+              name="pg"
+              id="pg-3"
+            />
+
+            <div class="product-gallery__stage">
+              <img
+                class="product-gallery__img"
+                data-key="1"
+                src="./images/ball.png"
+                alt="Professional Soccer Ball view 1"
+              />
+              <img
+                class="product-gallery__img"
+                data-key="2"
+                src="./images/ball.png"
+                alt="Professional Soccer Ball view 2"
+              />
+              <img
+                class="product-gallery__img"
+                data-key="3"
+                src="./images/ball.png"
+                alt="Professional Soccer Ball view 3"
+              />
+            </div>
+
+            <div class="product-gallery__thumbs">
+              <label for="pg-1" class="product-gallery__thumb"
+                ><img src="./images/ball.png" alt="Thumbnail 1"
+              /></label>
+              <label for="pg-2" class="product-gallery__thumb"
+                ><img src="./images/ball.png" alt="Thumbnail 2"
+              /></label>
+              <label for="pg-3" class="product-gallery__thumb"
+                ><img src="./images/ball.png" alt="Thumbnail 3"
+              /></label>
+            </div>
+          </div>
+
+          <!-- Info -->
+          <div class="product-info">
+            <div>
+              <div class="product-info__category">Soccer</div>
+              <h1 id="product-title" class="product-info__title">
+                Professional Soccer Ball
+              </h1>
+              <div class="product-info__rating">
+                <div class="rating-stars" aria-hidden="true">★★★★★</div>
+                <span class="rating-note">4.8 (124 reviews)</span>
+              </div>
+            </div>
+
+            <div class="product-info__price">$49.99</div>
+            <p class="product-info__desc">
+              Premium match quality ball with superior grip and durability for
+              all playing conditions. Made with high-quality materials and
+              designed for professional use.
+            </p>
+
+            <div class="option-group">
+              <div class="option-group__label">Size</div>
+              <div class="option-group__row">
+                <button class="option" type="button">S</button>
+                <button class="option" type="button">M</button>
+                <button class="option" type="button">L</button>
+                <button class="option" type="button">XL</button>
+              </div>
+            </div>
+
+            <div class="option-group">
+              <div class="option-group__label">Color</div>
+              <div class="option-group__row">
+                <button class="option" type="button">Black</button>
+                <button class="option" type="button">White</button>
+                <button class="option" type="button">Blue</button>
+              </div>
+            </div>
+
+            <div class="option-group">
+              <div class="option-group__label">Quantity</div>
+              <div class="qty" role="group" aria-label="Choose quantity">
+                <button class="qty__btn" type="button" aria-label="Decrease">
+                  −
+                </button>
+                <span class="qty__num" aria-live="polite">1</span>
+                <button class="qty__btn" type="button" aria-label="Increase">
+                  ＋
+                </button>
+              </div>
+            </div>
+
+            <div class="product-actions">
+              <a href="#" class="btn btn--primary">Add to Cart</a>
+              <a href="#" class="btn btn--outline">Buy Now</a>
+            </div>
+
+            <div class="product-actions__row">
+              <a href="#" class="btn btn--outline">Add to Wishlist</a>
+              <a href="#" class="btn btn--outline">Share</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Specs -->
+        <div class="specs">
+          <h2 class="section-heading">Specifications</h2>
+          <div class="specs__wrap">
+            <dl class="specs__grid">
+              <div class="specs__row">
+                <dt class="specs__term">Material</dt>
+                <dd class="specs__desc">Premium Leather</dd>
+              </div>
+              <div class="specs__row">
+                <dt class="specs__term">Weight</dt>
+                <dd class="specs__desc">410–450g</dd>
+              </div>
+              <div class="specs__row">
+                <dt class="specs__term">Circumference</dt>
+                <dd class="specs__desc">68–70cm</dd>
+              </div>
+              <div class="specs__row">
+                <dt class="specs__term">Pressure</dt>
+                <dd class="specs__desc">0.6–1.1 bar</dd>
+              </div>
+              <div class="specs__row">
+                <dt class="specs__term">FIFA Approved</dt>
+                <dd class="specs__desc">Yes</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+      <div class="container footer-grid">
+        <div>
+          <div class="footer-brand">
+            <svg
+              class="footer-brand__svg"
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                d="M50 5L85 20V45C85 65 75 80 50 95C25 80 15 65 15 45V20L50 5Z"
+                fill="#1E40AF"
+              />
+              <path
+                d="M50 15L75 25V45C75 60 68 72 50 85C32 72 25 60 25 45V25L50 15Z"
+                fill="#3B82F6"
+              />
+              <circle cx="50" cy="50" r="15" fill="white" />
+            </svg>
+            <span class="footer-brand__text">
+              <span class="footer-brand__line--primary">ProGear</span>
+              <span class="footer-brand__line--accent">Hub</span>
+            </span>
+          </div>
+          <p class="footer-desc">
+            Your trusted source for premium sports equipment and gear.
+          </p>
+        </div>
+        <div>
+          <h4>Products</h4>
+          <ul>
+            <li><a href="./shop.html">Soccer</a></li>
+            <li><a href="./shop.html">Cricket</a></li>
+            <li><a href="./shop.html">Tennis</a></li>
+            <li><a href="./shop.html">Swimming</a></li>
+            <li><a href="./shop.html">All Products</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="./about.html">About Us</a></li>
+            <li><a href="./blog.html">Blog & Resources</a></li>
+            <li><a href="./faq.html">FAQ</a></li>
+            <li><a href="./contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="./privacy.html">Privacy Policy</a></li>
+            <li><a href="./terms.html">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 ProGear Hub. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>
